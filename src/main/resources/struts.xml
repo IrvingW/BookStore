@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Struts2 DTD -->
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.1.7//EN"
+	"http://struts.apache.org/dtds/struts-2.1.7.dtd">
+<struts>
+	<constant name="struts.i18n.encoding" value="utf-8" />
+	<constant name="struts.devMode" value="true" />
+	<package name="process" extends="struts-default">
+		<!-- CRUD -->
+		<action name="userAction" class="action.UserAction">
+			<result name="success">users.jsp</result>
+			<result name="sign_up">sign_in.jsp</result>
+			<result name="user">home.jsp</result>
+			<result name="error">sign_in.jsp</result>
+			
+		</action>
+		<action name="bookAction" class="action.BookAction">
+			<result name="success">/bookstore/jsp/books.jsp</result>
+		</action>
+		<action name="orderAction" class="action.OrderAction">
+			<result name="success">/bookstore/jsp/orders.jsp</result>
+		</action>
+		
+		<action name="showHint" class="action.BookAction" method="hint">
+		</action>
+		
+		<action name="profile" class="action.UserAction" method="profile">
+		</action>
+		<action name="update_pro" class="action.UserAction" method="update_pro">
+			<result name="success">/bookstore/jsp/home.jsp</result>
+		</action>
+		<action name="modify_pwd" class="action.UserAction" method="modify_pwd">
+			<result name="success">/bookstore/jsp/sign_in.jsp</result>
+		</action>
+		<action name="check_pwd" class="action.UserAction" method="check_pwd">
+		</action>
+		
+		<action name="cartAction" class="action.CartAction">
+			<result name="success">/bookstore/jsp/pay.jsp</result>
+		</action>
+		
+		
+		
+		<action name="*">
+			<result>/{1}.jsp</result>
+		</action>
+	</package>
+</struts>
