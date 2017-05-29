@@ -26,8 +26,8 @@ DROP TABLE IF EXISTS `BOOKS`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `BOOKS` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `title` varchar(20) NOT NULL,
-  `author` varchar(20) DEFAULT NULL,
+  `title` varchar(50) NOT NULL,
+  `author` varchar(50) DEFAULT NULL,
   `price` decimal(6,2) NOT NULL,
   `stock` int(6) NOT NULL,
   PRIMARY KEY (`id`)
@@ -60,7 +60,7 @@ CREATE TABLE `ORDERITEMS` (
   KEY `itemorder_idx` (`orderid`),
   KEY `itembook_idx` (`bookid`),
   CONSTRAINT `itembook` FOREIGN KEY (`bookid`) REFERENCES `BOOKS` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `itemorder` FOREIGN KEY (`orderid`) REFERENCES `ORDERS` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  CONSTRAINT `itemorder` FOREIGN KEY (`orderid`) REFERENCES `ORDERS` (`orderid`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -81,11 +81,11 @@ DROP TABLE IF EXISTS `ORDERS`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `ORDERS` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `orderid` int(11) NOT NULL AUTO_INCREMENT,
   `userid` int(11) NOT NULL,
   `date` datetime NOT NULL,
   `state` varchar(20) NOT NULL,
-  PRIMARY KEY (`id`),
+  PRIMARY KEY (`orderid`),
   KEY `userorder_idx` (`userid`),
   CONSTRAINT `userorder` FOREIGN KEY (`userid`) REFERENCES `USERS` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -112,8 +112,8 @@ CREATE TABLE `USERS` (
   `username` varchar(15) NOT NULL,
   `password` varchar(20) NOT NULL,
   `role` varchar(20) NOT NULL,
-  `phone` int(11) NOT NULL,
-  `email` varchar(20) NOT NULL,
+  `phone` varchar(20) NOT NULL,
+  `email` varchar(40) NOT NULL,
   `address` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -138,3 +138,8 @@ UNLOCK TABLES;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
 -- Dump completed on 2017-05-02 21:35:35
+
+/* innitial users and books*/
+insert into books(title, author, price, stock) values("月亮与六便士", "William Somerset Maugham", 6.0,100); 
+insert into users values(1, "root", "mysql", "admin", "15651644615", "thor.wang@sjtu.edu.cn","SJTU" );
+insert into users values(2, "Irving", "aa", "user", "15651644615", "thor.wang97@sjtu.edu.cn","SJTU" );
