@@ -10,8 +10,11 @@ import dao.OrderDao;
 
 public class OrderDaoImpl extends HibernateDaoSupport implements OrderDao {
 
-	public Integer save(Order order) {
-		return (Integer) getHibernateTemplate().save(order);
+	public Order save(Order order) {
+		
+		int test = (Integer)getHibernateTemplate().save(order);
+		getHibernateTemplate().flush();
+		return order;
 	}
 
 	public void delete(Order order) {

@@ -23,6 +23,7 @@ public class UserAction extends BaseAction {
 	private String pre_name;
 	private String user_name;
 	private String password;
+	private String role;
 	private String phone;
 	private String email;
 	private String address;
@@ -97,8 +98,13 @@ public class UserAction extends BaseAction {
 		this.id = id;
 	}
 	
+	public String getRole() {
+		return role;
+	}
 
-
+	public void setRole(String role) {
+		this.role = role;
+	}
 
 	@Override
 	public String execute() throws Exception {
@@ -114,6 +120,7 @@ public class UserAction extends BaseAction {
 		user.setPhone(phone);
 		user.setEmail(email);
 		user.setAddress(address);
+		user.setRole(role);
 		appService.updateUser(user);
 		
 		
@@ -138,12 +145,14 @@ public class UserAction extends BaseAction {
 		user.setPhone(phone);
 		user.setEmail(email);
 		user.setAddress(address);
+		user.setRole(role);
 		appService.addUser(user);
 		
 		List<User> users = appService.getAllUsers();
 		request().setAttribute("users", users);
 		return SUCCESS;
 	}
+	
 	
 	public String sign_up() throws Exception{
 		User user = new User();
@@ -152,6 +161,7 @@ public class UserAction extends BaseAction {
 		user.setPhone(phone);
 		user.setEmail(email);
 		user.setAddress(address);
+		user.setRole("user");
 		appService.addUser(user);
 		return "sign_up";
 	}
@@ -168,7 +178,7 @@ public class UserAction extends BaseAction {
 			return ERROR;
 		}
 		else{
-			if(user_name.equals("root"))
+			if(user.getRole().equals("admin"))
 				return execute();
 			else{
 				session().setAttribute("user_name", user_name);

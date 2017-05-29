@@ -9,10 +9,13 @@
 			<generator class="assigned" />
 		</id>
 		<property name="user_name" type="java.lang.String">
-			<column name="user_name" />
+			<column name="username" />
 		</property>
 		<property name="password" type="java.lang.String">
 			<column name="password" />
+		</property>
+		<property name="role" type="java.lang.String">
+			<column name="role" />
 		</property>
 		<property name="phone" type="java.lang.String">
 			<column name="phone" />

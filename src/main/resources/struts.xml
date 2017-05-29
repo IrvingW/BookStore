@@ -42,6 +42,7 @@
 		
 		
 		
+		
 		<action name="*">
 			<result>/{1}.jsp</result>
 		</action>

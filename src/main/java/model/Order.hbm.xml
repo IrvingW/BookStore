@@ -5,17 +5,23 @@
 <hibernate-mapping>
 	<class name="model.Order" table="orders">
 		<id name="id" type="int">
-			<column name="id" />
-			<generator class="assigned" />
+			<column name="orderid" />
+			<generator class="native" />
 		</id>
 		<property name="user_id" type="int">
-			<column name="user_id" />
+			<column name="userid" />
 		</property>
-		<property name="book_id" type="int">
-			<column name="book_id" />
+		<property name="date" type="java.util.Date">
+			<column name="date" />
 		</property>
-		<property name="time" type="java.lang.String">
-			<column name="time" />
+		<property name="state" type="java.lang.String">
+			<column name="state" />
 		</property>
+		 
+		<set name="orderitems" inverse="true" lazy="false">
+			<key column="orderid"/>			
+			<one-to-many class="model.Orderitem"/>
+		</set>
+		
 	</class>
 </hibernate-mapping>

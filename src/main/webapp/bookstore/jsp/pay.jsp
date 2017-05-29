@@ -81,7 +81,7 @@
 	  
 	    <div align="right" style="margin-right: 100px;">
 	   		<h4 style="font-family: sans-serif;color: red;">总计： ￥<%= money %></h4>
-	   		<button class="btn btn-danger" id="make_order">确认订单</button>
+	   		<button class="btn btn-danger" id="make_order"><a href="cartAction!make_order">确认订单</a></button>
 		</div>
 	</div>
 		    

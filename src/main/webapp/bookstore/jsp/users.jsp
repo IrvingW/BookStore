@@ -42,6 +42,7 @@
 			            <td><b>password</b></td>
 			            <td><b>phone</b></td>
 			            <td><b>email</b></td>
+			            <td><b>role</b></td>
 			            <td><b>address</b></td>
 			            <td><b>delete</b></td>
 			            <td><b>update</b></td>
@@ -69,6 +70,7 @@
 		            <td ondblclick="modify(this)"><%= user.getPassword()%></td>
 		            <td ondblclick="modify(this)"><%= user.getPhone()%></td>
 		            <td ondblclick="modify(this)"><%= user.getEmail()%></td>
+		            <td ondblclick="modify(this)"><%= user.getRole()%></td>
 		            <td ondblclick="modify(this)"><%= user.getAddress()%></td>
 		            <td>
 		            	<button class="btn btn-default">
@@ -112,6 +114,9 @@
 							</div>
 							<div class="form-group">
 								<label>Email</label> <input class="form-control" name="email">
+							</div>
+							<div class="form-group">
+								<label>Role</label> <input class="form-control" name="role">
 							</div>
 							<div class="form-group">
 								<label>Address</label> <input class="form-control" type="text" name="address">
@@ -171,8 +176,10 @@ function update(row_id){
     td = td.nextElementSibling;
     var email = td.innerHTML;
     td = td.nextElementSibling;
+    var role = td.innerHTML;
+    td = td.nextElementSibling;
     var address = td.innerHTML;
-    var url = "userAction!update.action?id="+id+"&user_name="+user_name+"&password="+password+"&phone="+phone+"&email="+email+"&address="+address;
+    var url = "userAction!update.action?id="+id+"&user_name="+user_name+"&password="+password+"&phone="+phone+"&email="+email+"&role="+role+"&address="+address;
     window.location.href=url;
 }
 	

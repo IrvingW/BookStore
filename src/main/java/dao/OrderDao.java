@@ -6,7 +6,7 @@ import model.Order;
 
 public interface OrderDao {
 
-	public Integer save(Order order);
+	public Order save(Order order);
 
 	public void delete(Order order);
 

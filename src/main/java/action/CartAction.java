@@ -1,14 +1,22 @@
 package action;
 
 
+
 import java.io.PrintWriter;
+
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import model.Book;
 import model.Cart_item;
+import model.Order;
+import model.Orderitem;
+import model.User;
 import service.AppService;
 
 
@@ -99,6 +107,45 @@ public class CartAction extends BaseAction{
 			cart.add(item);
 		}
 		request().setAttribute("cart", cart);
+		
+		return SUCCESS;
+	}
+	
+	public String make_order() throws Exception{
+		User user = appService.getUserByName((String)session().getAttribute("user_name"));
+		int user_id = user.getId();
+		Order order = new Order();
+		order.setUser_id(user_id);
+		//get system time
+		Date date=new Date(System.currentTimeMillis());		
+		order.setDate(date);
+		order.setState("unpaid");
+		
+		order = appService.addOrder(order);
+				
+		Set<Orderitem> items = new HashSet<Orderitem>();
+		@SuppressWarnings("unchecked")
+		HashMap<Integer, Integer> map = (HashMap<Integer, Integer>)session().getAttribute("cart");
+		
+		for(Map.Entry<Integer,Integer> entry: map.entrySet()){
+			Orderitem item = new Orderitem();
+			int book_id = entry.getKey();
+			Book book = appService.getBookById(book_id);
+			double price = book.getPrice();
+			item.setOrder(order);
+			item.setBook_id(book_id);
+			item.setEach_price(price);
+			item.setAmount(entry.getValue());
+			items.add(item);
+			
+			appService.addOrderitem(item);
+		}
+		
+		
+		order.setOrderitems(items);
+		appService.updateOrder(order);
+		
+		session().setAttribute("cart", null);
 		
 		return SUCCESS;
 	}

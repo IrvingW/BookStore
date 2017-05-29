@@ -4,12 +4,12 @@
         "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <hibernate-mapping >
 
-    <class name="model.Book" table="book">
+    <class name="model.Book" table="books">
         <id name="id" column="id" type="int">
-            <generator class="native" />
+            <generator class="assigned" />
         </id>
         <property name="book_name" type="string">
-            <column name="name"></column>
+            <column name="title"></column>
         </property>
         <property name="author" type="string">
             <column name="author"></column>

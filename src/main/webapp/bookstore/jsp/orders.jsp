@@ -39,9 +39,9 @@
 		        <thead>
 			        <tr align="center">
 			            <td><b>ID</b></td>
-			            <td><b>user_id</b></td>
-			            <td><b>book_id</b></td>
-			            <td><b>time</b></td>
+			            <td><b>user_id</b></td>			          
+			            <td><b>date</b></td>
+			            <td><b>state</b></td>
 			            <td><b>delete</b></td>
 			            <td><b>update</b></td>
 			        </tr>
@@ -57,7 +57,7 @@
 		        			String row_id = "row"+order.getId();
 		        %>
 		        
-		         <s:url action="orderAction!delete" var="deleteLink">
+		        <s:url action="orderAction!delete" var="deleteLink">
 		        	<s:param name="id"><%= order.getId() %></s:param>
 		        </s:url>
 		        
@@ -65,8 +65,8 @@
 		         <tr align="center" id="<%= row_id %>">
 		            <td><%= order.getId() %></td>
 					<td ondblclick="modify(this)"><%= order.getUser_id()%></td>
-					<td ondblclick="modify(this)"><%= order.getBook_id() %>
-					<td ondblclick="modify(this)"><%= order.getTime()%></td>
+					<td ondblclick="modify(this)"><%= order.getDate()%></td>
+					<td ondblclick="modify(this)"><%= order.getState()%></td>
 		            <td>
 		            	<button class="btn btn-default">
 		            		<a href="${deleteLink}">delete</a>
@@ -98,15 +98,15 @@
 			<div class="modal-body">
 				<div class="row">
 					<div class="col-lg-12">
-						<form role="form" action="userAction!add" method="post">
+						<form role="form" action="orderAction!add" method="post">
 							<div class="form-group">
 								<label>User_id</label> <input class="form-control" name="user_id">
 							</div>
 							<div class="form-group">
-								<label>Book_id</label> <input class="form-control" name="book_id">
+								<label>Date</label> <input class="form-control" name="date">
 							</div>
 							<div class="form-group">
-								<label>Time</label> <input class="form-control" name="time">
+								<label>State</label> <input class="form-control" name="state">
 							</div>
 							<div class="modal-footer">
 								<input type="reset" class="btn btn-default">
@@ -155,13 +155,14 @@ function update(row_id){
     var td = row.firstElementChild;
     var id = td.innerHTML;
     td = td.nextElementSibling;
-    var book_id = td.innerHTML;
-    td = td.nextElementSibling;
     var user_id = td.innerHTML;
     td = td.nextElementSibling;
-    var time = td.innerHTML;
+    var date = td.innerHTML;
+    td = td.nextElementSibling;
+    var state = td.innerHTML;
    
-    var url = "orderAction!update.action?id="+id+"&user_id="+user_id+"&book_id="+book_id+"&time="+time;
+   
+    var url = "orderAction!update.action?id="+id+"&user_id="+user_id+"&date="+date+"&state="+state;
 
     window.location.href=url;
 }

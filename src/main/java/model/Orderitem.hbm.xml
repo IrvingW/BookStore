@@ -6,16 +6,20 @@
 	<class name="model.Orderitem" table="orderitems">
 		<id name="id" type="int">
 			<column name="id" />
-			<generator class="assigned" />
+			<generator class="native" />
 		</id>
-		<property name="orderid" type="int">
-			<column name="orderid" />
-		</property>
-		<property name="bookid" type="int">
+
+		<property name="book_id" type="int">
 			<column name="bookid" />
 		</property>
 		<property name="amount" type="int">
 			<column name="amount" />
 		</property>
+		<property name="each_price" type="double">
+			<column name="each_price" />
+		</property>
+		<many-to-one name="order" class="model.Order">
+			<column name="orderid"></column>
+		</many-to-one>
 	</class>
 </hibernate-mapping>

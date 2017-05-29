@@ -12,11 +12,7 @@ import dao.OrderDao;
 import dao.OrderitemDao;
 import dao.UserDao;
 
-/**
- * @author seniyuting
- * @version 1.0
- * 
- */
+
 public class AppServiceImpl implements AppService {
 
 	private BookDao bookDao;
@@ -72,7 +68,7 @@ public class AppServiceImpl implements AppService {
 	 * order
 	 * 
 	 */
-	public Integer addOrder(Order order) {
+	public Order addOrder(Order order) {
 		return orderDao.save(order);
 	}
 

@@ -34,7 +34,7 @@ public interface AppService {
 	 * order
 	 * 
 	 */
-	public Integer addOrder(Order order);
+	public Order addOrder(Order order);
 
 	public void deleteOrder(Order order);
 
