@@ -24,11 +24,16 @@
 	.cart span{display:block;width:20px;margin:0 auto;} 
 	.cart i{width:35px;height:35px;display:block; background:url(car.png) no-repeat;} 
 	#msg{position:fixed; top:300px; right:35px; z-index:10; width:1px; height:52px; line-height:52px; font-size:15px; text-align:center; color:#fff; background:#360; display:none} 
-
+	.cart a{color:white}
+	
+	.order{color: #fff;text-align:center;line-height: 20px;padding: 25px 0 0 0px;} 
+	.order span{display:block;width:20px;margin:0 auto;} 
+	.order i{width:35px;height:35px;display:block; background:url(car.png) no-repeat;} 	 
+	.order a{color:white}
 
 	.spinner {
-  width: 100px;
-}
+	  width: 100px;
+	}
 .spinner input {
   text-align: right;
 }
@@ -91,9 +96,17 @@
 <div class="m-sidebar"> 
     <div class="cart">
     	<a href="cartAction!pay" onclick="return check_login();"> 
-	        <i></i> 
+	        <i class="fa fa-shopping-cart fa-fw my-cart-icon" aria-hidden="true"></i>
 	        <span >购物车</span> 
     	</a>
+    	
+    </div>
+    <div class="order">
+    	<a href="orderAction!getOrders" onclick="return check_login();"> 
+	        <i class="fa fa-file fa-fw my-order-icon" aria-hidden="true"></i>
+	        <span >订单</span> 
+    	</a>
+    	
     </div> 
 </div> 
 <div id="msg">已成功加入购物车！</div> 

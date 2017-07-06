@@ -1,3 +1,4 @@
+<%@page import="java.util.ArrayList"%>
 <%@page import="model.Book"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
@@ -44,6 +45,7 @@
 			            <td><b>state</b></td>
 			            <td><b>delete</b></td>
 			            <td><b>update</b></td>
+			            <td><b>detail</b></td>
 			        </tr>
 		        </thead>
 		        
@@ -61,6 +63,10 @@
 		        	<s:param name="id"><%= order.getId() %></s:param>
 		        </s:url>
 		        
+		        <s:url action="orderAction!getItems" var="detailLink">
+		        	<s:param name="id"><%= order.getId() %></s:param>
+		        </s:url>
+		        
 		        
 		         <tr align="center" id="<%= row_id %>">
 		            <td><%= order.getId() %></td>
@@ -74,6 +80,12 @@
 		            </td>
 		            <td>
 		            	<button onclick="update('<%=row_id%>')" class="btn btn-success">update</button>
+		            </td>
+		            <td>
+		            	<button class="btn btn-default">
+		            		<a href="${detailLink}" target="_blank">detail</a>  
+		            		<!-- open a new page  -->
+		            	</button>
 		            </td>
 		        </tr>
 		        
@@ -100,7 +112,20 @@
 					<div class="col-lg-12">
 						<form role="form" action="orderAction!add" method="post">
 							<div class="form-group">
-								<label>User_id</label> <input class="form-control" name="user_id">
+								<label>User_id</label>
+									<select class="form-control" name="user_id">
+										<%
+											List<Integer> user_list = (List<Integer>) request.getAttribute("user_list");
+											if(user_list == null)
+												user_list = new ArrayList<Integer>();
+											for (int i = 0; i < user_list.size(); i++) {
+												
+										%>
+											<option value="<%=user_list.get(i)%>"><%=user_list.get(i)%></option>
+										<%
+											}
+										%>
+									</select>
 							</div>
 							<div class="form-group">
 								<label>Date</label> <input class="form-control" name="date">

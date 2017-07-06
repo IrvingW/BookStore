@@ -1,9 +1,13 @@
 package action;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import model.Book;
 import model.Order;
+import model.Orderitem;
+import model.User;
 import service.AppService;
 
 public class OrderAction extends BaseAction {
@@ -63,6 +67,15 @@ public class OrderAction extends BaseAction {
 	public String execute() throws Exception{
 		List<Order> orders = appService.getAllOrders();
 		request().setAttribute("orders", orders);
+		
+		List<User> users = appService.getAllUsers();
+		List<Integer> user_list = new ArrayList<Integer>();
+		for(User user : users){
+			user_list.add(user.getId());
+		}
+
+		request().setAttribute("user_list", user_list);
+		
 
 		return SUCCESS;
 	}
@@ -98,5 +111,19 @@ public class OrderAction extends BaseAction {
 		List<Order> orders = appService.getAllOrders();
 		request().setAttribute("orders", orders);
 		return SUCCESS;
+	}
+	
+	public String getOrders() throws Exception{
+		User user = appService.getUserByName((String)session().getAttribute("user_name"));
+		user_id = user.getId();
+		List<Order>orders = appService.getOrderByUserId(user_id);
+		request().setAttribute("orders", orders);
+		return "orders";
+	}
+	
+	public String getItems() throws Exception{
+		List<Orderitem> orderitems = appService.getItems(id);
+		request().setAttribute("orderitems", orderitems);
+		return "items";
 	}
 }

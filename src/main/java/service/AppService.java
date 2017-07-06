@@ -1,6 +1,9 @@
 package service;
 
+import java.io.File;
 import java.util.List;
+
+import com.mongodb.gridfs.GridFSDBFile;
 
 import model.Book;
 import model.Order;
@@ -43,6 +46,8 @@ public interface AppService {
 	public Order getOrderById(int id);
 
 	public List<Order> getAllOrders();
+	
+	public List<Orderitem> getItems(int order_id);
 
 	/**
 	 * order item
@@ -73,5 +78,18 @@ public interface AppService {
 	public User getUserByName(String name);
 
 	public List<User> getAllUsers();
+	
+	public List<Order> getOrderByUserId(int user_id);
+	
+	
+	/**
+	 * 
+	 * file
+	 * 
+	 */
+	
+	 public void saveFile(File file, String fileName, String contentType);
+	 
+	 public GridFSDBFile getFile(String fileNaem);
 
 }

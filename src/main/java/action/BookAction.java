@@ -73,7 +73,6 @@ public class BookAction extends BaseAction {
 	public String delete() throws Exception{
 		Book book = appService.getBookById(id);
 		appService.deleteBook(book);
-		
 		List<Book> books = appService.getAllBooks();
 		request().setAttribute("books", books);
 		return SUCCESS;

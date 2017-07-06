@@ -20,6 +20,8 @@
 		</action>
 		<action name="orderAction" class="action.OrderAction">
 			<result name="success">/bookstore/jsp/orders.jsp</result>
+			<result name="orders">/bookstore/jsp/myOrders.jsp</result>
+			<result name="items">/bookstore/jsp/orderItems.jsp</result>
 		</action>
 		
 		<action name="showHint" class="action.BookAction" method="hint">
@@ -38,6 +40,14 @@
 		
 		<action name="cartAction" class="action.CartAction">
 			<result name="success">/bookstore/jsp/pay.jsp</result>
+		</action>
+		
+		<action name="orderItemAction" class="action.OrderItemAction">
+			<result name="success">/bookstore/jsp/orderItems.jsp</result>
+		</action>
+		
+		<action name="fileAction" class="action.FileAction">
+			<result name="success">/bookstore/jsp/home.jsp</result>
 		</action>
 		
 		

@@ -46,7 +46,7 @@
         <div class="form-group row " id="user_name_div">
             <label class="col-md-2 control-label">用户名<span class="required"> *</span></label>
             <div  class="col-md-10"  >
-                <input class="form-control"  type="text" name="user_name" placeholder="用户名" autofocus="autofocus" maxlength="20" onchange="exsit();" >
+                <input class="form-control"  type="text" name="user_name" placeholder="用户名" autofocus="autofocus" maxlength="20"  >
 				<div id="toolTip"></div>
             </div>
             

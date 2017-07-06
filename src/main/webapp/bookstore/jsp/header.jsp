@@ -109,9 +109,8 @@
 <link href="<%=path%>/bookstore/css/font-awesome.min.css"
 	rel="stylesheet" type="text/css">
 	
-
-
 </head>
+
 <body>
     <div class="container header">
         <div class="logo">
@@ -127,11 +126,9 @@
             			btn = "onclick=\"log_in()\"";
             		}
             	%>
-            	
-            
-		        
-                <li><a href="#" data-toggle="modal" data-target="#profile" <%= btn %>><i class="fa fa-user" aria-hidden="true"></i><%= myName %></a></li>
-                <li><a href="" onclick="return sign_out();"><i class="fa fa-shopping-cart my-cart-icon" aria-hidden="true"></i>退出登陆</a></li>
+	        
+                <li><a href="#" data-toggle="modal" data-target="#profile" <%= btn %>><i class="fa fa-user fa-fw" aria-hidden="true"></i><%= myName %></a></li>
+                <li><a href="" onclick="return sign_out();"><i class="fa fa-arrow-right fa-fw" aria-hidden="true"></i>退出登陆</a></li>
             </ul>
         </div>
         <!--navigate bar-->
@@ -149,10 +146,17 @@
 			<div class="modal-body">
 				<div class="row">
 					<div class="col-lg-12">
-						<form role="form" action="update_pro" method="post">
+						<img id="Imgbox" height="100px" width="150px" style="margin:8px auto;">
+					
+						<form role="form" action="update_pro" method="post" enctype="multipart/form-data">
+							
 							<div class="form-group hide">
 								<label>Name</label> <input class="form-control" name="pre_name"  id="pre_name_input">
 							</div>
+							<div>
+								<label>Portrait</label><input type="file" name="file" id="portrait_input" disabled="true">
+							</div>
+							
 							<div class="form-group">
 								<label>Name</label> <input class="form-control" name="user_name" disabled="true" id="name_input">
 							</div>
@@ -195,10 +199,12 @@ $(document).ready(function() {
 	    	var obj = eval("("+data+")");
 	    	document.getElementById("pre_name_input").setAttribute("value",obj["name"]);
 			document.getElementById("name_input").setAttribute("value",obj["name"]);
-			
 			document.getElementById("phone_input").setAttribute("value",obj["phone"]);
 			document.getElementById("email_input").setAttribute("value",obj["email"]);
 			document.getElementById("addr_input").setAttribute("value",obj["addr"]);
+			// download portrait file
+			var download_url = "fileAction!download.action?user_name=" + obj["name"];
+			document.getElementById("Imgbox").setAttribute("src",download_url);
 	    }
     });
 });
@@ -224,10 +230,11 @@ function sign_out() {
 
 function edit() {
 	document.getElementById("name_input").removeAttribute("disabled");
-	
 	document.getElementById("phone_input").removeAttribute("disabled");
 	document.getElementById("email_input").removeAttribute("disabled");
 	document.getElementById("addr_input").removeAttribute("disabled");
+	document.getElementById("portrait_input").removeAttribute("disabled");
+	document.getElementById("modal_btns").removeAttribute("clickable");
 	$("#modal_btns").append('<input class="btn btn-default" type="submit">');
 }
 function log_in() {

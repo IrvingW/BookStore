@@ -3,6 +3,7 @@ package dao.impl;
 import java.util.List;
 
 import model.Order;
+import model.Orderitem;
 
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
@@ -38,6 +39,20 @@ public class OrderDaoImpl extends HibernateDaoSupport implements OrderDao {
 		List<Order> orders = (List<Order>) getHibernateTemplate().find(
 				"from Order");
 		return orders;
+	}
+	
+	public List<Order> getOrderByUserId(int user_id){
+		@SuppressWarnings("unchecked")
+		List<Order> orders = (List<Order>) getHibernateTemplate().find(
+				"from Order o where o.user_id = ?", user_id);
+		return orders;
+	}
+	
+	public List<Orderitem> getOrderitemByOrderId(int order_id){
+		@SuppressWarnings("unchecked")
+		List<Orderitem> orderitems = (List<Orderitem>) getHibernateTemplate()
+				.find("from Orderitem as oi where oi.order.id = ?", order_id);
+		return orderitems;
 	}
 
 }

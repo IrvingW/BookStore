@@ -1,6 +1,10 @@
 package service.impl;
 
+import java.awt.FileDialog;
+import java.io.File;
 import java.util.List;
+
+import com.mongodb.gridfs.GridFSDBFile;
 
 import model.Book;
 import model.Order;
@@ -8,6 +12,7 @@ import model.Orderitem;
 import model.User;
 import service.AppService;
 import dao.BookDao;
+import dao.FileDao;
 import dao.OrderDao;
 import dao.OrderitemDao;
 import dao.UserDao;
@@ -19,6 +24,7 @@ public class AppServiceImpl implements AppService {
 	private OrderDao orderDao;
 	private OrderitemDao orderitemDao;
 	private UserDao userDao;
+	private FileDao fileDao;
 
 	public void setBookDao(BookDao bookDao) {
 		this.bookDao = bookDao;
@@ -34,6 +40,10 @@ public class AppServiceImpl implements AppService {
 
 	public void setUserDao(UserDao userDao) {
 		this.userDao = userDao;
+	}
+	
+	public void setFileDao(FileDao fileDao){
+		this.fileDao = fileDao;
 	}
 
 	/**
@@ -87,6 +97,14 @@ public class AppServiceImpl implements AppService {
 	public List<Order> getAllOrders() {
 		return orderDao.getAllOrders();
 	}
+	
+	public List<Order> getOrderByUserId(int user_id){
+		return orderDao.getOrderByUserId(user_id);
+	}
+	
+	public List<Orderitem> getItems(int order_id){
+		return orderDao.getOrderitemByOrderId(order_id);
+	}
 
 	/**
 	 * order item
@@ -139,5 +157,16 @@ public class AppServiceImpl implements AppService {
 	public List<User> getAllUsers() {
 		return userDao.getAllUsers();
 	}
+	
+	/*
+	 * File
+	 */
+	 
+	public void saveFile(File file, String fileName, String contentType){
+		fileDao.saveFile(file, fileName, contentType);
+	}
 
+	public GridFSDBFile getFile(String fileName){
+		return fileDao.getFile(fileName);
+	}
 }
