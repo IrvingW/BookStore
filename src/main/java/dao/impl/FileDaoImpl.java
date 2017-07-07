@@ -25,7 +25,14 @@ public class FileDaoImpl implements FileDao{
 	public void saveFile(File file, String fileName, String contentType){
 		DB db = mongoTemplate.getDb();
 		GridFS gfs = new GridFS(db,collectionName);
-		try{
+        GridFSDBFile dbfile = gfs.findOne(fileName);
+        // insert a new portrait
+        
+        if(dbfile != null){  // if file already exist, remove it first
+        	gfs.remove(fileName);
+			
+        }
+        try{
 			GridFSInputFile inputFile = gfs.createFile(file);  
 			inputFile.setFilename(fileName);  
 	        inputFile.setContentType(contentType);  
@@ -34,7 +41,7 @@ public class FileDaoImpl implements FileDao{
 			// TODO: handle exception
 			e.printStackTrace();
 		}
-		 
+  	 
 	}
 	
 	public GridFSDBFile getFile(String fileName){

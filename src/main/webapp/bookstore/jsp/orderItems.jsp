@@ -17,14 +17,14 @@
 	rel="stylesheet">
 <link href="<%=path%>/bookstore/css/dataTables.responsive.css"
 	rel="stylesheet">
-<title>Users</title>
+<title>订单详情</title>
 </head>
 <body>
 	<!-- list -->
 	<div class="col-md-8 col-md-offset-2" >
     	<div>
     		<div class="row">
-				<h2 align="center" class="page-header">Orders</h2>
+				<h2 align="center" class="page-header">Order Items</h2>
 			</div>
 			<table align="center" class="table table-striped table-bordered table-hover" id="dataTables" >
 		        <thead>

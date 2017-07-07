@@ -122,7 +122,7 @@
             
             <!--products list-->            
             <div class="box">         	 
-				<img src="<%= path %>/bookstore/image/book_1.jpg" width="130" height="130"> 
+				<img src="fileAction!download_pic.action?book_name=test" width="130" height="130"> 
               	<div style="margin-top: 10px;">			    	
                    	<a class="title">月亮与六便士</a>
              	</div>

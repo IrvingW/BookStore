@@ -1,11 +1,16 @@
 package action;
 
+import java.io.File;
 import java.io.StringWriter;
 import java.util.List;
 
 import javax.json.Json;
 import javax.json.JsonObject;
 import javax.json.JsonWriter;
+
+import org.springframework.transaction.support.ResourceTransactionManager;
+
+import com.mysql.jdbc.Field;
 
 import model.Book;
 import service.AppService;
@@ -19,6 +24,12 @@ public class BookAction extends BaseAction {
 	private String author;
 	private double price;
 	private int stock;
+	
+	private File file;
+	
+	public void setFile(File file){
+		this.file = file;
+	}
 	
 	
 	public void setAppService(AppService appService) {
@@ -85,6 +96,8 @@ public class BookAction extends BaseAction {
 		book.setPrice(price);
 		book.setStock(stock);
 		appService.addBook(book);
+		String contentType = file.getName().split(".",1).toString();
+		appService.saveFile(file, name, contentType);
 		
 		List <Book> books = appService.getAllBooks();
 		request().setAttribute("books", books);
@@ -138,6 +151,12 @@ public class BookAction extends BaseAction {
 		response().getWriter().write(jsonStr);
 		
 		return null;
+	}
+	
+	
+	public String search(){
+		request().setAttribute("books", appService.search(name));
+		return "search";
 	}
 	
 

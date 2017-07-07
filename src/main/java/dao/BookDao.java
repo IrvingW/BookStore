@@ -18,5 +18,7 @@ public interface BookDao {
 	public List<Book> getAllBooks();
 	
 	public List<String> getHint(String str);
+	
+	public List<Book> search(String str);
 
 }

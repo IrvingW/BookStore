@@ -18,6 +18,12 @@ public class FileAction extends BaseAction {
 	
 	private String user_name;
 	
+	private String book_name;
+	
+	public void setBook_name(String book_name){
+		this.book_name = book_name;
+	}
+	
 	public void setUser_name(String user_name) {
 		this.user_name = user_name;
 	}
@@ -27,8 +33,30 @@ public class FileAction extends BaseAction {
 	}
 	
 	
-	public void download(){
+	public void download_portrait(){
 		GridFSDBFile dbFile = appService.getFile(user_name+"_portrait");
+		try{
+			OutputStream outputStream = response().getOutputStream();
+			response().setContentType("application/octet-stream");
+			 String name = (String) dbFile.get("filename");  
+             String fileName = new String(name.getBytes("GBK"), "ISO8859-1");                  
+             // 设置下载文件名  
+             response().addHeader("Content-Disposition", "attachment; filename=\"" + fileName + "\"");   
+             // 向客户端输出文件  
+             dbFile.writeTo(outputStream);  
+             outputStream.flush();  
+             outputStream.close();  
+			
+		}catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		
+	
+	}
+	
+	public void download_pic(){
+		GridFSDBFile dbFile = appService.getFile(book_name);
 		try{
 			OutputStream outputStream = response().getOutputStream();
 			response().setContentType("application/octet-stream");

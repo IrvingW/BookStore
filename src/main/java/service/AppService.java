@@ -32,6 +32,8 @@ public interface AppService {
 	public List<Book> getAllBooks();
 	
 	public List<String> getHint(String str);
+	
+	public List<Book> search(String str);
 
 	/**
 	 * order

@@ -73,6 +73,10 @@ public class AppServiceImpl implements AppService {
 	public List<String> getHint(String str){
 		return bookDao.getHint(str);
 	}
+	
+	public List<Book> search(String str){
+		return bookDao.search(str);
+	}
 
 	/**
 	 * order

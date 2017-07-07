@@ -43,5 +43,12 @@ public class BookDaoImpl extends HibernateDaoSupport implements BookDao {
 				"select b.book_name from Book as b where b.book_name like '%" + str + "%'");
 		return  book_names;
 	}
+	
+	public List<Book> search(String str){
+		@SuppressWarnings("unchecked")
+		List<Book> books = (List<Book>) getHibernateTemplate()
+			.find("select b from Book as b where b.book_name like '%" + str + "%'");
+		return books;
+	}
 
 }

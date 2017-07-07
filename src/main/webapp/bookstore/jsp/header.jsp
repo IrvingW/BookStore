@@ -146,34 +146,26 @@
 			<div class="modal-body">
 				<div class="row">
 					<div class="col-lg-12">
-						<img id="Imgbox" height="100px" width="150px" style="margin:8px auto;">
-					
-						<form role="form" action="update_pro" method="post" enctype="multipart/form-data">
-							
+						<img id="Imgbox" height="150px" width="150px" style="margin:8px auto;">
+						·<form role="form">			
 							<div class="form-group hide">
-								<label>Name</label> <input class="form-control" name="pre_name"  id="pre_name_input">
-							</div>
-							<div>
-								<label>Portrait</label><input type="file" name="file" id="portrait_input" disabled="true">
-							</div>
-							
+								<label>Name</label> <input class="form-control" name="pre_name"  id="pre_name">
+							</div>							
 							<div class="form-group">
-								<label>Name</label> <input class="form-control" name="user_name" disabled="true" id="name_input">
+								<label>Name</label> <input class="form-control" name="user_name" disabled="true" id="name">
 							</div>
 							<div class="form-group">
-								<label>Phone</label> <input class="form-control"  name="phone" disabled="true" id="phone_input">
+								<label>Phone</label> <input class="form-control"  name="phone" disabled="true" id="phone">
 							</div>
 							<div class="form-group">
-								<label>Email</label> <input class="form-control" name="email" disabled="true" id="email_input">
+								<label>Email</label> <input class="form-control" name="email" disabled="true" id="email">
 							</div>
 							<div class="form-group">
-								<label>Address</label> <input class="form-control" type="text" name="address" disabled="true" id="addr_input">
-							</div>
-							<div class="modal-footer" id="modal_btns">
-								<input class="btn btn-default" onclick="edit()" value="edit">						
-							</div>			
+								<label>Address</label> <input class="form-control" type="text" name="address" disabled="true" id="addr">
+							</div>		
 						</form>
-						<button class="btn btn-default" text-align="right"><a href="edit_pwd.jsp">修改密码</a></button>
+						<button class="btn btn-default"><a href="edit_profile.jsp">个人简历</a></button>
+						<button class="btn btn-default"><a href="edit_pwd.jsp">修改密码</a></button>
 					</div>
 				</div>
 			</div><!-- /.modal-content -->
@@ -197,13 +189,13 @@ $(document).ready(function() {
 	    data: { user_name: myName },
 	    success: function (data) {
 	    	var obj = eval("("+data+")");
-	    	document.getElementById("pre_name_input").setAttribute("value",obj["name"]);
-			document.getElementById("name_input").setAttribute("value",obj["name"]);
-			document.getElementById("phone_input").setAttribute("value",obj["phone"]);
-			document.getElementById("email_input").setAttribute("value",obj["email"]);
-			document.getElementById("addr_input").setAttribute("value",obj["addr"]);
+	    	document.getElementById("pre_name").setAttribute("value",obj["name"]);
+			document.getElementById("name").setAttribute("value",obj["name"]);
+			document.getElementById("phone").setAttribute("value",obj["phone"]);
+			document.getElementById("email").setAttribute("value",obj["email"]);
+			document.getElementById("addr").setAttribute("value",obj["addr"]);
 			// download portrait file
-			var download_url = "fileAction!download.action?user_name=" + obj["name"];
+			var download_url = "fileAction!download_portrait.action?user_name=" + obj["name"];
 			document.getElementById("Imgbox").setAttribute("src",download_url);
 	    }
     });
@@ -228,15 +220,6 @@ function sign_out() {
     });
 }
 
-function edit() {
-	document.getElementById("name_input").removeAttribute("disabled");
-	document.getElementById("phone_input").removeAttribute("disabled");
-	document.getElementById("email_input").removeAttribute("disabled");
-	document.getElementById("addr_input").removeAttribute("disabled");
-	document.getElementById("portrait_input").removeAttribute("disabled");
-	document.getElementById("modal_btns").removeAttribute("clickable");
-	$("#modal_btns").append('<input class="btn btn-default" type="submit">');
-}
 function log_in() {
 	window.location="sign_in.jsp";
 	

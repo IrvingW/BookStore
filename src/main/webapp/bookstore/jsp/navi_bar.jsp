@@ -53,7 +53,7 @@
             
 </div>
 <div style="position:fixed;width:300px;height:30px;top:155px;right:80px;" id="test"  >
-	<form class="navbar-form navbar-right" role="form" action="showHint" method="post" >
+	<form class="navbar-form navbar-right" role="form" action="bookAction!search" method="post" >
 		<div class="form-group">                  
 			<input name="name" class="form-control" id="search" placeholder="请输入关键词" onkeyup="showHint(this.value)" autocomplete="off">
 			<input type="submit" class="btn btn-success" value="search">			    

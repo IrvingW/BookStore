@@ -17,7 +17,7 @@
 	rel="stylesheet">
 <link href="<%=path%>/bookstore/css/dataTables.responsive.css"
 	rel="stylesheet">
-<title>Users</title>
+<title>订单</title>
 </head>
 <body>
 <div >
