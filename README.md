@@ -1,6 +1,7 @@
 # BookStore
 * SSH Framework
 * MySQL DB
+* MongoDB
 
 
 # Deploy Steps
