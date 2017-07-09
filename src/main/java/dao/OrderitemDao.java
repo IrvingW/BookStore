@@ -17,5 +17,4 @@ public interface OrderitemDao {
 	public List<Orderitem> getAllOrderitems();
 	
 
-
 }

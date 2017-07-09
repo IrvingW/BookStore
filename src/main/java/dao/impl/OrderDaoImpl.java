@@ -1,5 +1,7 @@
 package dao.impl;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import model.Order;
@@ -53,6 +55,18 @@ public class OrderDaoImpl extends HibernateDaoSupport implements OrderDao {
 		List<Orderitem> orderitems = (List<Orderitem>) getHibernateTemplate()
 				.find("from Orderitem as oi where oi.order.id = ?", order_id);
 		return orderitems;
+	}
+	
+	public List<Order> getOrderByDate(Date date){
+		Calendar end = Calendar.getInstance();
+		end.setTime(date);
+		end.add(Calendar.SECOND, 24*3600-1);
+		
+		@SuppressWarnings("unchecked")
+		List<Order> orders = (List<Order>) getHibernateTemplate()
+				.find("from Order as order where order.date between ? and ?", date, end.getTime());
+		return orders;
+		
 	}
 
 }

@@ -29,10 +29,14 @@ public class UserAction extends BaseAction {
 	private String email;
 	private String address;
 	private String new_pwd;
-	
+	private String introduce;
 	private File file;
 	
 	
+	
+	public void setIntroduce(String introduce) {
+		this.introduce = introduce;
+	}
 	public void setFile(File file) {
 		this.file = file;
 	}
@@ -206,6 +210,7 @@ public class UserAction extends BaseAction {
 	
 	public String profile() throws Exception{
 		User user = appService.getUserByName(user_name);
+		String u_intro = appService.getIntroByName(user_name);
 		String u_name = user.getUser_name();
 		String u_pwd = user.getPassword();
 		String u_phone = user.getPhone();
@@ -217,6 +222,7 @@ public class UserAction extends BaseAction {
 				.add("phone", u_phone)
 				.add("email", u_email)
 				.add("addr",u_addr)
+				.add("intro", u_intro)
 				.build();
 		
 		StringWriter stringWriter = new StringWriter();
@@ -224,9 +230,16 @@ public class UserAction extends BaseAction {
 			jsonWriter.writeObject(model);
 		}
 		String jsonStr = stringWriter.toString();
+		response().setContentType("text/html;charset=utf-8"); // this must before getWriter() 
 		response().getWriter().write(jsonStr);
 		return null;
 	}
+	
+	public String saveIntro(){
+		appService.saveProfile(user_name, introduce);
+		return "introduce";
+	}
+	
 	
 	public String update_pro() throws Exception{
 		User user = appService.getUserByName(pre_name);

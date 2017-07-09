@@ -16,7 +16,7 @@
         </property>
         <property name="price" type="double" column="price" />
         <property name="stock" type="int" column="stock" />
-
+		<property name="category" type="string" column="category" />
     </class>
 
 </hibernate-mapping>

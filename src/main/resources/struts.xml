@@ -13,6 +13,7 @@
 			<result name="sign_up">sign_in.jsp</result>
 			<result name="user">home.jsp</result>
 			<result name="error">sign_in.jsp</result>
+			<result name="introduce">edit_profile.jsp</result>
 			
 		</action>
 		<action name="bookAction" class="action.BookAction">
@@ -41,6 +42,7 @@
 		
 		<action name="cartAction" class="action.CartAction">
 			<result name="success">/bookstore/jsp/pay.jsp</result>
+			<result name="payed">/bookstore/jsp/home.jsp</result>
 		</action>
 		
 		<action name="orderItemAction" class="action.OrderItemAction">
@@ -49,6 +51,10 @@
 		
 		<action name="fileAction" class="action.FileAction">
 			<result name="success">/bookstore/jsp/home.jsp</result>
+		</action>
+		
+		<action name="statisticAction" class="action.StatisticAction">
+			<result name="success">/bookstore/jsp/statistics.jsp</result>
 		</action>
 		
 		

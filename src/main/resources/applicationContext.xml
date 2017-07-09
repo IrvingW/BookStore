@@ -65,6 +65,7 @@
 	</bean>
 	<bean id="userDao" class="dao.impl.UserDaoImpl">
 		<property name="sessionFactory" ref="sessionFactory" />
+		<property name="mongoTemplate" ref="mongoTemplate" />
 	</bean>
 	
 	<bean id="fileDao" class="dao.impl.FileDaoImpl">

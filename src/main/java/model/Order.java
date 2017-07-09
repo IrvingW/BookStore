@@ -45,7 +45,13 @@ public class Order {
 		this.state = state;
 	}
 	
-	
+	public double getTotal(){
+		double total = 0;
+		for(Orderitem orderitem :orderitems){
+			total += orderitem.getPrice();
+		}
+		return total;
+	}
 	
 	
 	

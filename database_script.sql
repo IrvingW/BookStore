@@ -1,3 +1,4 @@
+drop database bookstore;
 CREATE DATABASE  IF NOT EXISTS `BookStore` /*!40100 DEFAULT CHARACTER SET utf8 */;
 USE `BookStore`;
 -- MySQL dump 10.13  Distrib 5.6.19, for osx10.7 (i386)
@@ -30,6 +31,7 @@ CREATE TABLE `BOOKS` (
   `author` varchar(50) DEFAULT NULL,
   `price` decimal(6,2) NOT NULL,
   `stock` int(6) NOT NULL,
+  `category` varchar(50) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -140,6 +142,6 @@ UNLOCK TABLES;
 -- Dump completed on 2017-05-02 21:35:35
 
 /* innitial users and books*/
-insert into books(title, author, price, stock) values("月亮与六便士", "William Somerset Maugham", 6.0,100); 
+insert into books(title, author, price, stock,category) values("月亮与六便士", "William Somerset Maugham", 6.0,100,"noval"); 
 insert into users values(1, "root", "mysql", "admin", "15651644615", "thor.wang@sjtu.edu.cn","SJTU" );
 insert into users values(2, "Irving", "aa", "user", "15651644615", "thor.wang97@sjtu.edu.cn","SJTU" );

@@ -24,14 +24,22 @@ public class BookAction extends BaseAction {
 	private String author;
 	private double price;
 	private int stock;
+	private String category;
 	
 	private File file;
 	
 	public void setFile(File file){
 		this.file = file;
 	}
-	
-	
+
+	public String getCategory() {
+		return category;
+	}
+
+	public void setCategory(String category) {
+		this.category = category;
+	}
+		
 	public void setAppService(AppService appService) {
 		this.appService = appService;
 	}
@@ -95,6 +103,7 @@ public class BookAction extends BaseAction {
 		book.setAuthor(author);
 		book.setPrice(price);
 		book.setStock(stock);
+		book.setCategory(category);
 		appService.addBook(book);
 		String contentType = file.getName().split(".",1).toString();
 		appService.saveFile(file, name, contentType);
@@ -110,6 +119,7 @@ public class BookAction extends BaseAction {
 		book.setAuthor(author);
 		book.setPrice(price);
 		book.setStock(stock);
+		book.setCategory(category);
 		appService.updateBook(book);
 		
 		List <Book> books = appService.getAllBooks();
@@ -126,6 +136,7 @@ public class BookAction extends BaseAction {
 			result += ";";
 		}
 			
+		response().setContentType("text/html;charset=utf-8"); // this must before getWriter() 
 		response().getWriter().print(result);
 		return null;
 	}
@@ -140,7 +151,7 @@ public class BookAction extends BaseAction {
 				.add("name", name)
 				.add("author", author)
 				.add("price", price)
-				.add("stock", stock)				
+				.add("stock", stock)
 				.build();
 		
 		StringWriter stringWriter = new StringWriter();
@@ -148,6 +159,7 @@ public class BookAction extends BaseAction {
 			jsonWriter.writeObject(model);
 		}
 		String jsonStr = stringWriter.toString();
+		response().setContentType("text/html;charset=utf-8"); // this must before getWriter() 
 		response().getWriter().write(jsonStr);
 		
 		return null;
@@ -158,6 +170,8 @@ public class BookAction extends BaseAction {
 		request().setAttribute("books", appService.search(name));
 		return "search";
 	}
+
+
 	
 
 }

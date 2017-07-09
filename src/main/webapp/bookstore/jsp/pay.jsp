@@ -10,6 +10,7 @@
 <%@ taglib prefix="s" uri="/struts-tags" %>
 <%
 	String path = request.getContextPath();
+	int total_price = 0;
 %>
 <link href="<%=path%>/bookstore/css/bootstrap.min.css" rel="stylesheet">
 <link href="<%=path%>/bookstore/css/dataTables.bootstrap.css"
@@ -31,6 +32,7 @@
 			<table align="center" class="table table-striped table-bordered table-hover" id="dataTables" >
 		        <thead>
 			        <tr align="center">
+			        	<td><b>选择</b></td>
 			            <td><b>书名</b></td>
 			            <td><b>数量</b></td>
 			            <td><b>单价（元）</b></td>
@@ -41,17 +43,12 @@
 		        
 		        <tbody>
 		        <%
-		        	double money = 0;
 		        	List<Cart_item> list = (List<Cart_item>)request.getAttribute("cart");
 		        	if(list == null || list.size() < 1){
 		        		out.print("no data");
 		        	}else{
 		        		for(Cart_item item : list){
-		        			double p = item.getPrice();
-		        			double c = item.getCount();
-		        			double total = p * c;
 		        			
-		        			money += total;
 		        %>
 		        
 		         <s:url action="cartAction!rmv_product" var="deleteLink">
@@ -60,10 +57,11 @@
 		        
 		        
 		         <tr align="center">
+		         	<td><input type="checkbox" value="<%=item.getBook_id() %>"/></td>
 		            <td><%= item.getBook_name()%></td>
 		            <td><%= item.getCount()%></td>
 		            <td><%= item.getPrice()%></td>
-		            <td><%= total%></td>		    
+		            <td><%= item.getTotal()%></td>		    
 		            <td>
 		            	<button class="btn btn-default">
 		            		<a href="${deleteLink}">remove</a>
@@ -80,8 +78,7 @@
 		    
 	  
 	    <div align="right" style="margin-right: 100px;">
-	   		<h4 style="font-family: sans-serif;color: red;">总计： ￥<%= money %></h4>
-	   		<button class="btn btn-danger" id="make_order"><a href="cartAction!make_order">确认订单</a></button>
+	   		<button class="btn btn-danger" onclick="make_order()">确认订单</button>
 		</div>
 	</div>
 		    
@@ -99,5 +96,30 @@ $(document).ready(function() {
 		responsive : true
 	});
 });
+
+var array=new Array();
+
+$(function(){
+	$('input:checkbox').change(function() {
+		var new_array = array;
+		if ($(this).is(':checked') ==true) {
+            var book_id = $(this).val();
+            array.push(book_id);
+   		}
+		else{
+			var book_id = $(this).val();
+			var index = array.indexOf(book_id);
+			array.splice(index, 1);
+		}
+		
+    });
+}); 
+
+function make_order(){
+	var url = "cartAction!make_order.action?selected_id=" + array;
+    window.location.href=url;
+}
+
+
 </script>
 </html>

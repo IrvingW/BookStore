@@ -2,6 +2,10 @@ package service.impl;
 
 import java.awt.FileDialog;
 import java.io.File;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import com.mongodb.gridfs.GridFSDBFile;
@@ -9,6 +13,7 @@ import com.mongodb.gridfs.GridFSDBFile;
 import model.Book;
 import model.Order;
 import model.Orderitem;
+import model.Statistic;
 import model.User;
 import service.AppService;
 import dao.BookDao;
@@ -162,6 +167,15 @@ public class AppServiceImpl implements AppService {
 		return userDao.getAllUsers();
 	}
 	
+	public String getIntroByName(String name){
+		return userDao.getIntroByName(name);
+	}
+	
+	public void saveProfile(String name, String introduce){
+		userDao.saveProfile(name, introduce);
+	}
+	
+	
 	/*
 	 * File
 	 */
@@ -173,4 +187,96 @@ public class AppServiceImpl implements AppService {
 	public GridFSDBFile getFile(String fileName){
 		return fileDao.getFile(fileName);
 	}
+	
+	/*
+	 * 
+	 * Statistic
+	 * 
+	 */
+	
+	public List<Statistic> getUserStatistics(String user_name, Date start_time, Date end_time){
+		List<Statistic> statistics = new ArrayList<>();
+		
+		Calendar start = Calendar.getInstance();
+		start.setTime(start_time);
+		Calendar end = Calendar.getInstance();
+		end.setTime(end_time);
+		Calendar temp = (Calendar) start.clone();
+		while(!temp.after(end)){
+			Statistic statistic = new Statistic();
+			List<Order> orders = orderDao.getOrderByDate(temp.getTime());
+			int count = 0;
+			for(Order order : orders){
+				if(order.getUser_id() == userDao.getUserByName(user_name).getId())
+					for(Orderitem orderitem :order.getOrderitems()){
+						count += orderitem.getAmount();
+					}
+			}
+			statistic.setDate(temp.getTime());;
+			statistic.setCount(count);
+			statistics.add(statistic);
+			temp.add(Calendar.DAY_OF_YEAR, 1);
+		}
+		
+		return statistics;
+	}
+	
+	public List<Statistic> getBookStatistics(String book_name, Date start_time, Date end_time){
+		List<Statistic> statistics = new ArrayList<>();
+		
+		Calendar start = Calendar.getInstance();
+		start.setTime(start_time);
+		Calendar end = Calendar.getInstance();
+		end.setTime(end_time);
+		Calendar temp = (Calendar) start.clone();
+		while(!temp.after(end)){
+			Statistic statistic = new Statistic();
+			List<Order> orders = orderDao.getOrderByDate(temp.getTime());
+			int count = 0;
+			for(Order order : orders){
+				for(Orderitem orderitem : order.getOrderitems()){
+					int book_id = orderitem.getBook_id();
+					if(bookDao.getBookById(book_id).getBook_name().equals(book_name)){
+						count += orderitem.getAmount();
+					}
+				}
+			}
+			statistic.setDate(temp.getTime());;
+			statistic.setCount(count);
+			statistics.add(statistic);
+			temp.add(Calendar.DAY_OF_YEAR, 1);
+		}
+		return statistics;
+	}
+	
+	public List<Statistic> getCategoryStatistics(String category, Date start_time, Date end_time){
+		List<Statistic> statistics = new ArrayList<>();
+		
+		Calendar start = Calendar.getInstance();
+		start.setTime(start_time);
+		Calendar end = Calendar.getInstance();
+		end.setTime(end_time);
+		Calendar temp = (Calendar) start.clone();
+		while(!temp.after(end)){
+			Statistic statistic = new Statistic();
+			List<Order> orders = orderDao.getOrderByDate(temp.getTime());
+			int count = 0;
+			for(Order order : orders){
+				for(Orderitem orderitem : order.getOrderitems()){
+					int book_id = orderitem.getBook_id();
+					if(bookDao.getBookById(book_id).getCategory().equals(category)){
+						count += orderitem.getAmount();
+					}
+				}
+			}
+			statistic.setDate(temp.getTime());;
+			statistic.setCount(count);
+			statistics.add(statistic);
+			temp.add(Calendar.DAY_OF_YEAR, 1);
+		}
+		
+		return statistics;
+	}
+	
+	
 }

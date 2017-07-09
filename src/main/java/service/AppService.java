@@ -1,6 +1,7 @@
 package service;
 
 import java.io.File;
+import java.util.Date;
 import java.util.List;
 
 import com.mongodb.gridfs.GridFSDBFile;
@@ -8,6 +9,7 @@ import com.mongodb.gridfs.GridFSDBFile;
 import model.Book;
 import model.Order;
 import model.Orderitem;
+import model.Statistic;
 import model.User;
 
 /**
@@ -83,6 +85,10 @@ public interface AppService {
 	
 	public List<Order> getOrderByUserId(int user_id);
 	
+	public String getIntroByName(String name);
+	
+	public void saveProfile(String name, String introduce);
+	
 	
 	/**
 	 * 
@@ -93,5 +99,17 @@ public interface AppService {
 	 public void saveFile(File file, String fileName, String contentType);
 	 
 	 public GridFSDBFile getFile(String fileNaem);
+	 
+	 
+	 /*
+	  * 
+	  * Statistic
+	  */
+	 
+	 public List<Statistic> getBookStatistics(String book_name, Date start_time, Date end_time);
+	  
+	 public List<Statistic> getCategoryStatistics(String category, Date start_time, Date end_time);
+	 
+	 public List<Statistic> getUserStatistics(String user_name, Date start_time, Date end_time);
 
 }

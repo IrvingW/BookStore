@@ -1,5 +1,6 @@
 package dao;
 
+import java.util.Date;
 import java.util.List;
 
 import model.Order;
@@ -20,5 +21,7 @@ public interface OrderDao {
 	public List<Order> getOrderByUserId(int user_id);
 	
 	public List<Orderitem> getOrderitemByOrderId(int order_id);
+	
+	public List<Order> getOrderByDate(Date date);
 
 }

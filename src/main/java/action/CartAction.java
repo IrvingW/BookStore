@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -27,8 +28,17 @@ public class CartAction extends BaseAction{
 	
 	private int book_id;
 	private String method;
+	private String selected_id;
 	private AppService appService;
 	
+	
+	
+	public String getSelected_id() {
+		return selected_id;
+	}
+	public void setSelected_id(String selected_id) {
+		this.selected_id = selected_id;
+	}
 	public void setAppService(AppService appService) {
 		this.appService = appService;
 	}
@@ -120,16 +130,17 @@ public class CartAction extends BaseAction{
 		Date date=new Date(System.currentTimeMillis());		
 		order.setDate(date);
 		order.setState("unpaid");
-		
 		order = appService.addOrder(order);
 				
 		Set<Orderitem> items = new HashSet<Orderitem>();
 		@SuppressWarnings("unchecked")
-		HashMap<Integer, Integer> map = (HashMap<Integer, Integer>)session().getAttribute("cart");
-		
-		for(Map.Entry<Integer,Integer> entry: map.entrySet()){
+		HashMap<Integer, Integer> map = (HashMap<Integer, Integer>)session().getAttribute("cart");  
+		Iterator<Map.Entry<Integer, Integer>> it = map.entrySet().iterator();  
+		while(it.hasNext()){  
+			Map.Entry<Integer, Integer> entry=it.next(); 
+	        int book_id = entry.getKey();
+	        if(selected_id.contains(String.valueOf(book_id)) == true){
 			Orderitem item = new Orderitem();
-			int book_id = entry.getKey();
 			Book book = appService.getBookById(book_id);
 			double price = book.getPrice();
 			item.setOrder(order);
@@ -137,17 +148,17 @@ public class CartAction extends BaseAction{
 			item.setEach_price(price);
 			item.setAmount(entry.getValue());
 			items.add(item);
-			
+						
 			appService.addOrderitem(item);
-		}
-		
-		
+			it.remove();
+			}
+		}  
 		order.setOrderitems(items);
 		appService.updateOrder(order);
 		
-		session().setAttribute("cart", null);
 		
-		return SUCCESS;
+		return "payed";
 	}
+
 	
 }

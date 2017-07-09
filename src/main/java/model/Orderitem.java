@@ -44,6 +44,10 @@ public class Orderitem {
 	public void setEach_price(double each_price) {
 		this.each_price = each_price;
 	}
+	
+	public double getPrice(){
+		return amount*each_price;
+	}
 
 	
 	

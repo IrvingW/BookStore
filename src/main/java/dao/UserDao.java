@@ -17,5 +17,9 @@ public interface UserDao {
 	public User getUserByName(String name);
 
 	public List<User> getAllUsers();
+	
+	public String getIntroByName(String name);
+	
+	public void saveProfile(String name, String introduce);
 
 }

@@ -27,6 +27,7 @@
 		<li><a href="bookAction">Books</a></li>
         <li><a href="userAction">Users</a></li>
         <li class="active"><a href="##">Orders</a></li>
+        <li><a href="<%=path%>/bookstore/jsp/statistics.jsp">Statistics</a></li>
     </ul>
 	</div>
 </div>

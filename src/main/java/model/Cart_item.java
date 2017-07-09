@@ -11,7 +11,6 @@ public class Cart_item {
 	}
 	
 	
-
 	public int getBook_id() {
 		return book_id;
 	}
@@ -38,6 +37,12 @@ public class Cart_item {
 	public void setPrice(double price) {
 		this.price = price;
 	}
+
+
+	public double getTotal() {
+		return this.price * this.count;
+	}
+
 
 	
 }

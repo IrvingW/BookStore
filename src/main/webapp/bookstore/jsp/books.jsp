@@ -1,6 +1,8 @@
+<%@page import="java.util.ArrayList"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ page import="java.util.List" %>
+<%@ page import="java.util.ArrayList" %>
 <%@ page import="model.Book" %>
 <%@ taglib prefix="s" uri="/struts-tags" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -25,6 +27,7 @@
 		<li class="active"><a href="##">Books</a></li>
         <li><a href="userAction">Users</a></li>
         <li><a href="orderAction">Orders</a></li>
+        <li><a href="<%=path%>/bookstore/jsp/statistics.jsp">Statistics</a></li>
     </ul>
 	</div>
 </div>
@@ -42,6 +45,7 @@
 			            <td><b>author</b></td>
 			            <td><b>price</b></td>
 			            <td><b>stock</b></td>
+			            <td><b>category</b></td>
 			            <td><b>delete</b></td>
 			            <td><b>update</b></td>
 			        </tr>
@@ -67,7 +71,8 @@
 		            <td ondblclick="modify(this)"><%= book.getBook_name()%></td>
 		            <td ondblclick="modify(this)"><%= book.getAuthor()%></td>
 		            <td ondblclick="modify(this)"><%= book.getPrice()%></td>
-		            <td ondblclick="modify(this)"><%= book.getStock()%></td>		    
+		            <td ondblclick="modify(this)"><%= book.getStock()%></td>	
+		            <td ondblclick="modify(this)"><%= book.getCategory()%></td>	    
 		            <td>
 		            	<button class="btn btn-default">
 		            		<a href="${deleteLink}">delete</a>
@@ -115,6 +120,18 @@
 							<div class="form-group">
 								<label>Stock</label> <input class="form-control" name="stock">
 							</div>
+							<div class="form-group">
+								<label>Category</label>
+									<select class="form-control" name="category">								
+										<option value="noval">noval</option>
+										<option value="education">education</option>
+										<option value="prose">prose</option>
+										<option value="science">science</option>
+										<option value="poetry">poetry</option>
+										<option value="biography">biography</option>
+									</select>
+							</div>
+							
 							
 							<div class="modal-footer">
 								<input type="reset" class="btn btn-default">
@@ -170,7 +187,9 @@ function update(row_id){
     var price = td.innerHTML;
     td = td.nextElementSibling;
     var stock = td.innerHTML;
-    var url = "bookAction!update.action?id="+id+"&name="+name+"&author="+author+"&price="+price+"&stock="+stock;
+    td = td.nextElementSibling;
+    var category = td.innerHTML;
+    var url = "bookAction!update.action?id="+id+"&name="+name+"&author="+author+"&price="+price+"&stock="+stock+"&category="+category;
     window.location.href=url;
 }
 	

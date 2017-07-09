@@ -23,8 +23,9 @@
 	<div class="col-md-2" style="margin-top:20px">
 	<ul class="nav nav-pills nav-stacked">
 		<li><a href="bookAction">Books</a></li>
-        <li class="active"><a href="##"><i class="fa fa-user fa-fw"></i>Users</a></li>
-        <li><a href="orderAction"><i class="fa fa-reorder fa-fw"></i>Orders</a></li>
+        <li class="active"><a href="##">Users</a></li>
+        <li><a href="orderAction">Orders</a></li>
+        <li><a href="<%=path%>/bookstore/jsp/statistics.jsp">Statistics</a></li>
     </ul>
 	</div>
 </div>
