@@ -43,6 +43,7 @@
 		<action name="cartAction" class="action.CartAction">
 			<result name="success">/bookstore/jsp/pay.jsp</result>
 			<result name="payed">/bookstore/jsp/home.jsp</result>
+			<result name="update">/bookstore/jsp/pay.jsp</result>
 		</action>
 		
 		<action name="orderItemAction" class="action.OrderItemAction">

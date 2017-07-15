@@ -37,13 +37,15 @@
 			            <td><b>数量</b></td>
 			            <td><b>单价（元）</b></td>
 			            <td><b>合计（元）</b></td>
+			            <td><b>add</b></td>
+						<td><b>minus</b></td>
 			            <td><b>删除</b></td>
 			        </tr>
 		        </thead>
 		        
 		        <tbody>
 		        <%
-		        	List<Cart_item> list = (List<Cart_item>)request.getAttribute("cart");
+		        	List<Cart_item> list = (List<Cart_item>) request.getAttribute("cart");
 		        	if(list == null || list.size() < 1){
 		        		out.print("no data");
 		        	}else{
@@ -67,6 +69,8 @@
 		            		<a href="${deleteLink}">remove</a>
 		            	</button>
 		            </td>
+		            <td><button class="btn btn-default" onclick="add_cnt(<%= item.getBook_id() %>);">add</button></td>
+					<td><button class="btn btn-default" onclick="minus_cnt(<%= item.getBook_id() %>);">minus</button></td>
 		        </tr>
 		        
 		        <%
@@ -120,6 +124,22 @@ function make_order(){
     window.location.href=url;
 }
 
+
+</script>
+
+<script type="text/javascript">
+function add_cnt(book_id) {
+	var method = "add";
+	var url = "cartAction!update_cnt?method=" + method + "&book_id=" + book_id;
+
+    window.location.href=url;
+}
+
+function minus_cnt(book_id){
+	var method = "minus";
+	var url = "cartAction!update_cnt?method=" + method + "&book_id=" + book_id;
+	 window.location.href=url;
+}
 
 </script>
 </html>

@@ -14,6 +14,7 @@
 <jsp:include page="header.jsp"></jsp:include>
 
 <% List<Order> list = (List<Order>) request.getAttribute("orders"); %>
+<div class="col-md-8 col-md-offset-2">
 
 		<table align="center" class="table table-striped table-bordered table-hover" >
 		        <thead>
@@ -24,7 +25,8 @@
 			            
 						        	<td><b>图书编号：</b></td>
 							        <td><b>单价：</b></td>
-							        <td><b>数量：</b></td>			            
+							        <td><b>数量：</b></td>	
+		            
 			        </tr>
 		        </thead>
 		        
@@ -66,6 +68,7 @@
 						        	<td><%= item.getBook_id() %></td>
 							        <td><%= item.getEach_price() %></td>
 							        <td><%= item.getAmount() %></td>
+							       
 						        </tr>
 		        			</div>
 		        		<%
@@ -77,10 +80,12 @@
 		        %>
 		        </tbody>
 		    </table>
-		    
+	</div>	    
 		    
 
 </body>
+
+
 
 
 </html>

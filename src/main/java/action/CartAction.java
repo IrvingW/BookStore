@@ -79,7 +79,7 @@ public class CartAction extends BaseAction{
 	}
 	public String update_cnt() throws Exception{
 		appService.update_cnt(session(), book_id, method);
-		return null;
+		return pay();
 	}
 	
 	public String pay() throws Exception{

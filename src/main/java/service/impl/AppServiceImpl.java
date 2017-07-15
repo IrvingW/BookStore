@@ -372,10 +372,11 @@ public class AppServiceImpl implements AppService {
 	 public void update_cnt(HttpSession session, int book_id, String method){
 			@SuppressWarnings("unchecked")
 			HashMap<Integer, Integer> cart = (HashMap<Integer, Integer>)session.getAttribute("cart");
+			int old_cnt = cart.get(book_id);
 			if(method.equals("add"))
-				cart.put(book_id, (cart.get(book_id)+1));
+				cart.put(book_id, (old_cnt+1));
 			if(method.equals("minus"))
-				cart.put(book_id, (cart.get(book_id)-1));
+				cart.put(book_id, (old_cnt-1));
 			
 			session.setAttribute("cart", cart);
 	 }
