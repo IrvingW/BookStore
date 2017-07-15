@@ -142,17 +142,7 @@ public class BookAction extends BaseAction {
 	}
 	
 	public String show_detail() throws Exception{
-		Book book = appService.getBookById(id);
-		name= book.getBook_name();
-		author = book.getAuthor();
-		stock = book.getStock();
-		price = book.getPrice();
-		JsonObject model = Json.createObjectBuilder()
-				.add("name", name)
-				.add("author", author)
-				.add("price", price)
-				.add("stock", stock)
-				.build();
+		JsonObject model = appService.show_detail(id);
 		
 		StringWriter stringWriter = new StringWriter();
 		try (JsonWriter jsonWriter = Json.createWriter(stringWriter)) {

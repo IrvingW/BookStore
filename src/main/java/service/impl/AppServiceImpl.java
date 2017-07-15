@@ -1,16 +1,27 @@
 package service.impl;
 
-import java.awt.FileDialog;
 import java.io.File;
-import java.time.LocalDate;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import javax.json.Json;
+import javax.json.JsonObject;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 
 import com.mongodb.gridfs.GridFSDBFile;
 
 import model.Book;
+import model.Cart_item;
 import model.Order;
 import model.Orderitem;
 import model.Statistic;
@@ -81,6 +92,22 @@ public class AppServiceImpl implements AppService {
 	
 	public List<Book> search(String str){
 		return bookDao.search(str);
+	}
+	
+	public JsonObject show_detail(int id){
+		Book book = getBookById(id);
+		String name= book.getBook_name();
+		String author = book.getAuthor();
+		int stock = book.getStock();
+		double price = book.getPrice();
+		JsonObject model = Json.createObjectBuilder()
+				.add("name", name)
+				.add("author", author)
+				.add("price", price)
+				.add("stock", stock)
+				.build();
+		
+		return model;
 	}
 
 	/**
@@ -174,7 +201,41 @@ public class AppServiceImpl implements AppService {
 	public void saveProfile(String name, String introduce){
 		userDao.saveProfile(name, introduce);
 	}
+
+	public JsonObject profile(String user_name){
+		User user = this.getUserByName(user_name);
+		String u_intro = this.getIntroByName(user_name);
+		String u_name = user.getUser_name();
+		String u_pwd = user.getPassword();
+		String u_phone = user.getPhone();
+		String u_email = user.getEmail();
+		String u_addr = user.getAddress();
+		JsonObject model = Json.createObjectBuilder()
+				.add("name", u_name)
+				.add("pwd", u_pwd)
+				.add("phone", u_phone)
+				.add("email", u_email)
+				.add("addr",u_addr)
+				.add("intro", u_intro)
+				.build();
+		return model;
+	}
 	
+	public void check_pwd(PrintWriter out, String name, String password){
+		if(name==null){
+			out.write("login");
+			return;
+		}
+		User user = getUserByName(name);
+		String pre_pwd = user.getPassword();
+		
+		if(pre_pwd.equals(password)){
+			out.write("right");
+		}
+		else{
+			out.write("wrong");
+		}
+	}
 	
 	/*
 	 * File
@@ -278,5 +339,101 @@ public class AppServiceImpl implements AppService {
 		return statistics;
 	}
 	
+	
+	/*
+	 * 
+	 * cart
+	 * 
+	 */
+	
+	public void add_product(PrintWriter out, HttpSession session, int book_id){
+		@SuppressWarnings("unchecked")
+		HashMap<Integer, Integer> cart = (HashMap<Integer, Integer>)session.getAttribute("cart");
+		if(cart==null){
+			out.write("login");
+			return;
+		}
+		if(cart.containsKey(book_id)){
+			cart.put(book_id, (cart.get(book_id)+1));
+		}else{
+			cart.put(book_id, 1);
+		}
+		session.setAttribute("cart", cart);
+		out.write("success");
+	}
+	 
+	public void rmv_product(HttpSession session, int book_id){
+		@SuppressWarnings("unchecked")
+		HashMap<Integer, Integer> cart = (HashMap<Integer, Integer>)session.getAttribute("cart");
+		cart.remove(book_id);
+		session.setAttribute("cart", cart);
+	}
+	
+	 public void update_cnt(HttpSession session, int book_id, String method){
+			@SuppressWarnings("unchecked")
+			HashMap<Integer, Integer> cart = (HashMap<Integer, Integer>)session.getAttribute("cart");
+			if(method.equals("add"))
+				cart.put(book_id, (cart.get(book_id)+1));
+			if(method.equals("minus"))
+				cart.put(book_id, (cart.get(book_id)-1));
+			
+			session.setAttribute("cart", cart);
+	 }
+	 
+	 public void pay(HttpSession session, HttpServletRequest request){
+		 @SuppressWarnings("unchecked")
+			HashMap<Integer, Integer> map = (HashMap<Integer, Integer>)session.getAttribute("cart");
+			List<Cart_item> cart = new ArrayList<Cart_item>();
+			for(Map.Entry<Integer,Integer> entry: map.entrySet()){
+				int e_id = entry.getKey();
+				int e_count = entry.getValue();
+				Book book = this.getBookById(e_id);
+				//cart.add(new Cart_item(book.getBook_name(), e_count, book.getPrice()));
+				Cart_item item = new Cart_item();
+				item.setBook_id(e_id);
+				item.setBook_name(book.getBook_name());
+				item.setCount(e_count);
+				item.setPrice(book.getPrice());
+				cart.add(item);
+			}
+			request.setAttribute("cart", cart);
+	 }
+	 
+	 
+	 public void make_order(HttpSession session, String selected_id){
+			User user = this.getUserByName((String) session.getAttribute("user_name"));
+			int user_id = user.getId();
+			Order order = new Order();
+			order.setUser_id(user_id);
+			//get system time
+			Date date=new Date(System.currentTimeMillis());		
+			order.setDate(date);
+			order.setState("unpaid");
+			order = this.addOrder(order);
+					
+			Set<Orderitem> items = new HashSet<Orderitem>();
+			@SuppressWarnings("unchecked")
+			HashMap<Integer, Integer> map = (HashMap<Integer, Integer>)session.getAttribute("cart");  
+			Iterator<Map.Entry<Integer, Integer>> it = map.entrySet().iterator();  
+			while(it.hasNext()){  
+				Map.Entry<Integer, Integer> entry=it.next(); 
+		        int book_id = entry.getKey();
+		        if(selected_id.contains(String.valueOf(book_id)) == true){
+				Orderitem item = new Orderitem();
+				Book book = this.getBookById(book_id);
+				double price = book.getPrice();
+				item.setOrder(order);
+				item.setBook_id(book_id);
+				item.setEach_price(price);
+				item.setAmount(entry.getValue());
+				items.add(item);
+							
+				this.addOrderitem(item);
+				it.remove();
+				}
+			}  
+			order.setOrderitems(items);
+			this.updateOrder(order);
+	 }
 	
 }

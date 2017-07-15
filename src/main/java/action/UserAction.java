@@ -209,21 +209,7 @@ public class UserAction extends BaseAction {
 	
 	
 	public String profile() throws Exception{
-		User user = appService.getUserByName(user_name);
-		String u_intro = appService.getIntroByName(user_name);
-		String u_name = user.getUser_name();
-		String u_pwd = user.getPassword();
-		String u_phone = user.getPhone();
-		String u_email = user.getEmail();
-		String u_addr = user.getAddress();
-		JsonObject model = Json.createObjectBuilder()
-				.add("name", u_name)
-				.add("pwd", u_pwd)
-				.add("phone", u_phone)
-				.add("email", u_email)
-				.add("addr",u_addr)
-				.add("intro", u_intro)
-				.build();
+		JsonObject model = appService.profile(user_name);
 		
 		StringWriter stringWriter = new StringWriter();
 		try (JsonWriter jsonWriter = Json.createWriter(stringWriter)) {
@@ -258,19 +244,7 @@ public class UserAction extends BaseAction {
 	public String check_pwd() throws Exception{
 		PrintWriter out = response().getWriter();
 		String name = (String) session().getAttribute("user_name");
-		if(name==null){
-			out.write("login");
-			return null;
-		}
-		User user = appService.getUserByName(name);
-		String pre_pwd = user.getPassword();
-		
-		if(pre_pwd.equals(password)){
-			out.write("right");
-		}
-		else{
-			out.write("wrong");
-		}
+		appService.check_pwd(out, name, password);
 		return null;
 	}
 	

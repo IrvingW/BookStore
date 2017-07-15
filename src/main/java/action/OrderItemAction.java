@@ -61,7 +61,6 @@ public class OrderItemAction extends BaseAction {
 		orderitem.setAmount(amount);
 		orderitem.setBook_id(book_id);
 		orderitem.setEach_price(each_price);
-		Book book = appService.getBookById(id);
 		appService.updateOrderitem(orderitem);
 		
 		List<Orderitem> orderitems = appService.getItems(order_id);

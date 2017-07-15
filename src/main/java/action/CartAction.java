@@ -13,6 +13,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.websocket.Session;
+
+import org.springframework.context.ApplicationEventPublisher;
+
 import model.Book;
 import model.Cart_item;
 import model.Order;
@@ -65,98 +69,26 @@ public class CartAction extends BaseAction{
 	
 	public String add_product() throws Exception{
 		PrintWriter out = response().getWriter();
-		@SuppressWarnings("unchecked")
-		HashMap<Integer, Integer> cart = (HashMap<Integer, Integer>)session().getAttribute("cart");
-		if(cart==null){
-			out.write("login");
-			return null;
-		}
-		if(cart.containsKey(book_id)){
-			cart.put(book_id, (cart.get(book_id)+1));
-		}else{
-			cart.put(book_id, 1);
-		}
-		session().setAttribute("cart", cart);
-		out.write("success");
+		appService.add_product(out, session(), book_id);
 		return null;
 	}
+	
 	public String rmv_product() throws Exception{
-		@SuppressWarnings("unchecked")
-		HashMap<Integer, Integer> cart = (HashMap<Integer, Integer>)session().getAttribute("cart");
-		cart.remove(book_id);
-		session().setAttribute("cart", cart);
-		
+		appService.rmv_product(session(), book_id);
 		return SUCCESS;
 	}
 	public String update_cnt() throws Exception{
-		@SuppressWarnings("unchecked")
-		HashMap<Integer, Integer> cart = (HashMap<Integer, Integer>)session().getAttribute("cart");
-		if(method.equals("add"))
-			cart.put(book_id, (cart.get(book_id)+1));
-		if(method.equals("minus"))
-			cart.put(book_id, (cart.get(book_id)-1));
-		
-		session().setAttribute("cart", cart);
+		appService.update_cnt(session(), book_id, method);
 		return null;
 	}
 	
 	public String pay() throws Exception{
-		@SuppressWarnings("unchecked")
-		HashMap<Integer, Integer> map = (HashMap<Integer, Integer>)session().getAttribute("cart");
-		List<Cart_item> cart = new ArrayList<Cart_item>();
-		for(Map.Entry<Integer,Integer> entry: map.entrySet()){
-			int e_id = entry.getKey();
-			int e_count = entry.getValue();
-			Book book = appService.getBookById(e_id);
-			//cart.add(new Cart_item(book.getBook_name(), e_count, book.getPrice()));
-			Cart_item item = new Cart_item();
-			item.setBook_id(e_id);
-			item.setBook_name(book.getBook_name());
-			item.setCount(e_count);
-			item.setPrice(book.getPrice());
-			cart.add(item);
-		}
-		request().setAttribute("cart", cart);
-		
+		appService.pay(session(), request());
 		return SUCCESS;
 	}
 	
 	public String make_order() throws Exception{
-		User user = appService.getUserByName((String)session().getAttribute("user_name"));
-		int user_id = user.getId();
-		Order order = new Order();
-		order.setUser_id(user_id);
-		//get system time
-		Date date=new Date(System.currentTimeMillis());		
-		order.setDate(date);
-		order.setState("unpaid");
-		order = appService.addOrder(order);
-				
-		Set<Orderitem> items = new HashSet<Orderitem>();
-		@SuppressWarnings("unchecked")
-		HashMap<Integer, Integer> map = (HashMap<Integer, Integer>)session().getAttribute("cart");  
-		Iterator<Map.Entry<Integer, Integer>> it = map.entrySet().iterator();  
-		while(it.hasNext()){  
-			Map.Entry<Integer, Integer> entry=it.next(); 
-	        int book_id = entry.getKey();
-	        if(selected_id.contains(String.valueOf(book_id)) == true){
-			Orderitem item = new Orderitem();
-			Book book = appService.getBookById(book_id);
-			double price = book.getPrice();
-			item.setOrder(order);
-			item.setBook_id(book_id);
-			item.setEach_price(price);
-			item.setAmount(entry.getValue());
-			items.add(item);
-						
-			appService.addOrderitem(item);
-			it.remove();
-			}
-		}  
-		order.setOrderitems(items);
-		appService.updateOrder(order);
-		
-		
+		appService.make_order(session(), selected_id);
 		return "payed";
 	}
 

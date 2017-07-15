@@ -1,8 +1,13 @@
 package service;
 
 import java.io.File;
+import java.io.PrintWriter;
 import java.util.Date;
 import java.util.List;
+
+import javax.json.JsonObject;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import com.mongodb.gridfs.GridFSDBFile;
 
@@ -36,6 +41,8 @@ public interface AppService {
 	public List<String> getHint(String str);
 	
 	public List<Book> search(String str);
+	
+	public JsonObject show_detail(int id);
 
 	/**
 	 * order
@@ -89,6 +96,10 @@ public interface AppService {
 	
 	public void saveProfile(String name, String introduce);
 	
+	public JsonObject profile(String user_name);
+	
+	public void check_pwd(PrintWriter out, String name, String password);
+	
 	
 	/**
 	 * 
@@ -101,6 +112,7 @@ public interface AppService {
 	 public GridFSDBFile getFile(String fileNaem);
 	 
 	 
+	 
 	 /*
 	  * 
 	  * Statistic
@@ -111,5 +123,19 @@ public interface AppService {
 	 public List<Statistic> getCategoryStatistics(String category, Date start_time, Date end_time);
 	 
 	 public List<Statistic> getUserStatistics(String user_name, Date start_time, Date end_time);
+	 
+	 /*
+	  * 
+	  * cart
+	  */
+	 public void add_product(PrintWriter out, HttpSession session, int book_id);
+	 
+	 public void rmv_product(HttpSession session, int book_id);
+	
+	 public void update_cnt(HttpSession session, int book_id, String method);
+	 
+	 public void pay(HttpSession session, HttpServletRequest request);
+	 
+	 public void make_order(HttpSession session, String selected_id);
 
 }
