@@ -367,6 +367,10 @@ public class AppServiceImpl implements AppService {
 			out.write("login");
 			return;
 		}
+		if(bookDao.getBookById(book_id).getStock() == 0){
+			out.write("not_enough");
+			return;
+		}
 		if(cart.containsKey(book_id)){
 			cart.put(book_id, (cart.get(book_id)+1));
 		}else{

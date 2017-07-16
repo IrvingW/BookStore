@@ -200,6 +200,9 @@
 			    if(strValue == "success"){
 			    	$("#msg").show().animate({width: '250px'}, 200).fadeOut(1000); //提示信息 
 			    }
+			    else if(strValue == "not_enough"){
+			    	alert("添加失败,商品库存不足");
+			    }
 			    	
 			    else if(strValue == "login"){
 			    	alert("添加失败,请重新登陆");
@@ -232,7 +235,7 @@ function fly(img) {
             height: 0 //结束时高度 
         }, 
         onEnd: function(){ //结束回调 
-            $("#msg").show().animate({width: '250px'}, 200).fadeOut(1000); //提示信息            
+            //$("#msg").show().animate({width: '250px'}, 200).fadeOut(1000); //提示信息            
             this.destory(); //移除dom 
         } 
     });
