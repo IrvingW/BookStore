@@ -29,6 +29,15 @@ public class BookDaoImpl extends HibernateDaoSupport implements BookDao {
 		Book book = books.size() > 0 ? books.get(0) : null;
 		return book;
 	}
+	
+	public Book getBookByName(String name){
+		@SuppressWarnings("unchecked")
+		List<Book> books = (List<Book>) getHibernateTemplate().find(
+				"from Book as b where b.book_name=?", name);
+		if(books.size() == 0)
+			return null;
+		return books.get(0);
+	}
 
 	public List<Book> getAllBooks() {
 		@SuppressWarnings("unchecked")

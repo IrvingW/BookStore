@@ -35,6 +35,8 @@ public interface AppService {
 	public void updateBook(Book book);
 
 	public Book getBookById(int id);
+	
+	public Book getBookByName(String name);
 
 	public List<Book> getAllBooks();
 	

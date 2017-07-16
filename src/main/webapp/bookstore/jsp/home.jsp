@@ -122,7 +122,7 @@
             
             <!--products list-->            
             <div class="box">         	 
-				<img src="fileAction!download_pic.action?book_name=test" width="130" height="130"> 
+				<img src="fileAction!download_pic.action?book_name=月亮与六便士" width="130" height="130"> 
               	<div style="margin-top: 10px;">			    	
                    	<a class="title">月亮与六便士</a>
              	</div>
@@ -130,7 +130,7 @@
 			    <div style="margin-bottom: 10px;">
                 	<button class="btn btn-default detail" type="button" data-toggle="modal" data-target="#myModal">详细信息</button>                               
                     <button class="btn btn-success addcart" type="button">加入购物车</button>             
-                    <p class="hide">1</p> 
+                    <p class="hide">3</p> 
                 </div>              
 			</div> 
             
@@ -153,9 +153,9 @@
                         </div>
                     </div>
                     <div class="col-md-9 span-5 ">
-                        <p class="title" id="detail_title"></p>
-                        <p class="title" id="detail_author"></p>
-                        <p class="title" id="detail_stock"></p>
+                        <p class="title" id="detail_title">月亮与六便士</p>
+                        <p class="title" id="detail_author">毛姆</p>
+                        <p class="title" id="detail_stock">100</p>
                         <p class="title" id="detail_price">￥6.00</p> 
                         <label>数量：</label>
                         <div class="input-group spinner">  
@@ -169,7 +169,7 @@
                         <h4 style="margin-top: 30px;">简介</h4>
                         <a data-toggle="collapse" data-target="#intro" style="font-family: inherit;font-size: 13px;" >展开 >></a>
                         <div id="intro" class="collapse">
-                        	<p>some introductions</p>
+                        	<p>管理员最喜欢的书</p>
                         </div>
                         
 	                       	  

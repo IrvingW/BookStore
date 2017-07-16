@@ -235,9 +235,10 @@ public class UserAction extends BaseAction {
 		user.setAddress(address);
 		appService.updateUser(user);
 		session().setAttribute("user_name", user_name); // rewrite session
-		String contentType = file.getName().split(".",1).toString();
-		appService.saveFile(file, user_name+"_portrait", contentType);
-	
+		if(file != null){
+			String contentType = file.getName().split(".",1).toString();
+			appService.saveFile(file, user_name+"_portrait", contentType);
+		}
 		return SUCCESS;
 	}
 	

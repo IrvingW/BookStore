@@ -53,7 +53,7 @@
 			<div class="modal-body">
 				<div class="row">
 					<div class="col-lg-12">
-						<form role="form" action="statisticAction!user" method="post" enctype="multipart/form-data">
+						<form role="form" action="statisticAction!user" method="post">
 							<div class="form-group">
 								<label>User Name</label> <input class="form-control" name="user_name">
 							</div>
@@ -84,7 +84,7 @@
 			<div class="modal-body">
 				<div class="row">
 					<div class="col-lg-12">
-						<form role="form" action="statisticAction!book" method="post" enctype="multipart/form-data">
+						<form role="form" action="statisticAction!book" method="post">
 							<div class="form-group">
 								<label>Book Name</label> <input class="form-control" name="book_name">
 							</div>
@@ -115,7 +115,7 @@
 			<div class="modal-body">
 				<div class="row">
 					<div class="col-lg-12">
-						<form role="form" action="statisticAction!category" method="post" enctype="multipart/form-data">
+						<form role="form" action="statisticAction!category" method="post">
 							<div class="form-group">
 								<label>Category</label>
 								<select class="form-control" name="category">								

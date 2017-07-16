@@ -9,11 +9,12 @@
 	<package name="process" extends="struts-default">
 		<!-- CRUD -->
 		<action name="userAction" class="action.UserAction">
-			<result name="success">users.jsp</result>
+			<result name="success">/bookstore/jsp/users.jsp</result>
 			<result name="sign_up">sign_in.jsp</result>
 			<result name="user">home.jsp</result>
 			<result name="error">sign_in.jsp</result>
 			<result name="introduce">edit_profile.jsp</result>
+		
 			
 		</action>
 		<action name="bookAction" class="action.BookAction">

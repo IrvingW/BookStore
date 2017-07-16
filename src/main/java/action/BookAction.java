@@ -105,9 +105,10 @@ public class BookAction extends BaseAction {
 		book.setStock(stock);
 		book.setCategory(category);
 		appService.addBook(book);
-		String contentType = file.getName().split(".",1).toString();
-		appService.saveFile(file, name, contentType);
-		
+		if(file != null){
+			String contentType = file.getName().split(".",1).toString();
+			appService.saveFile(file, name, contentType);
+		}
 		List <Book> books = appService.getAllBooks();
 		request().setAttribute("books", books);
 		return SUCCESS;

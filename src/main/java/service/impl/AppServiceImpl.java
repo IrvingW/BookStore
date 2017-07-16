@@ -17,6 +17,7 @@ import javax.json.JsonObject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.hibernate.engine.query.OrdinalParameterDescriptor;
 
 import com.mongodb.gridfs.GridFSDBFile;
 
@@ -81,6 +82,10 @@ public class AppServiceImpl implements AppService {
 	public Book getBookById(int id) {
 		return bookDao.getBookById(id);
 	}
+	
+	public Book getBookByName(String name){
+		return bookDao.getBookByName(name);
+	}
 
 	public List<Book> getAllBooks() {
 		return bookDao.getAllBooks();
@@ -119,6 +124,9 @@ public class AppServiceImpl implements AppService {
 	}
 
 	public void deleteOrder(Order order) {
+		Set<Orderitem> orderitems = order.getOrderitems();
+		for(Orderitem orderitem : orderitems)
+			orderitemDao.delete(orderitem);
 		orderDao.delete(order);
 	}
 
@@ -376,7 +384,10 @@ public class AppServiceImpl implements AppService {
 			if(method.equals("add"))
 				cart.put(book_id, (old_cnt+1));
 			if(method.equals("minus"))
-				cart.put(book_id, (old_cnt-1));
+				if(old_cnt == 1) // if new count = 0, remove it form cart
+					cart.remove(book_id);
+				else 
+					cart.put(book_id, (old_cnt-1));
 			
 			session.setAttribute("cart", cart);
 	 }

@@ -2,8 +2,11 @@ package action;
 
 import java.sql.Date;
 import java.util.List;
+import java.util.Set;
 
+import model.Book;
 import model.Statistic;
+import model.User;
 import service.AppService;
 
 public class StatisticAction extends BaseAction {
@@ -56,6 +59,16 @@ public class StatisticAction extends BaseAction {
 	}
 	
 	public String user() throws Exception{
+		User user = appService.getUserByName(user_name);
+		if(user == null){
+			request().setAttribute("name", "不存在的用户");
+			return SUCCESS;
+		}
+		// check time span is valid
+		if(start_time == null || end_time == null || start_time.after(end_time)){
+			request().setAttribute("name", "不存在的时间段");
+			return SUCCESS;
+		}
 		List<Statistic> statistics = appService.getUserStatistics(user_name, start_time, end_time);
 		request().setAttribute("statistics", statistics);
 		request().setAttribute("name", user_name);
@@ -63,14 +76,27 @@ public class StatisticAction extends BaseAction {
 	}
 	
 	public String book() throws Exception{
-		List<Statistic> statistics = appService.getUserStatistics(book_name, start_time, end_time);
+		Book book = appService.getBookByName(book_name);
+		if(book == null){
+			request().setAttribute("name", "不存在的图书");
+			return SUCCESS;
+		}
+		if(start_time == null || end_time == null || start_time.after(end_time)){
+			request().setAttribute("name", "不存在的时间段");
+			return SUCCESS;
+		}
+		List<Statistic> statistics = appService.getBookStatistics(book_name, start_time, end_time);
 		request().setAttribute("name", "《"+book_name+"》");
 		request().setAttribute("statistics", statistics);
 		return SUCCESS;
 	}
 	
 	public String category() throws Exception{
-		List<Statistic> statistics = appService.getUserStatistics(category, start_time, end_time);
+		if(start_time == null || end_time == null || start_time.after(end_time)){
+			request().setAttribute("name", "不存在的时间段");
+			return SUCCESS;
+		}
+		List<Statistic> statistics = appService.getCategoryStatistics(category, start_time, end_time);
 		request().setAttribute("name", category);
 		request().setAttribute("statistics", statistics);
 		return SUCCESS;
