@@ -14,7 +14,6 @@ import dao.OrderDao;
 public class OrderDaoImpl extends HibernateDaoSupport implements OrderDao {
 
 	public Order save(Order order) {
-		
 		int test = (Integer)getHibernateTemplate().save(order);
 		getHibernateTemplate().flush();
 		return order;

@@ -88,6 +88,8 @@ public class CartAction extends BaseAction{
 	}
 	
 	public String make_order() throws Exception{
+		if(selected_id.equals(""))
+			return "payed";
 		appService.make_order(session(), selected_id);
 		return "payed";
 	}

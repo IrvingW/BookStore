@@ -126,7 +126,7 @@ public class AppServiceImpl implements AppService {
 	public void deleteOrder(Order order) {
 		Set<Orderitem> orderitems = order.getOrderitems();
 		for(Orderitem orderitem : orderitems)
-			orderitemDao.delete(orderitem);
+			deleteOrderitem(orderitem);
 		orderDao.delete(order);
 	}
 
@@ -155,10 +155,16 @@ public class AppServiceImpl implements AppService {
 	 * 
 	 */
 	public Integer addOrderitem(Orderitem orderitem) {
+		Book book = bookDao.getBookById(orderitem.getBook_id());
+		book.setStock(book.getStock() - orderitem.getAmount());
+		bookDao.update(book);
 		return orderitemDao.save(orderitem);
 	}
 
 	public void deleteOrderitem(Orderitem orderitem) {
+		Book book = bookDao.getBookById(orderitem.getBook_id());
+		book.setStock(book.getStock() + orderitem.getAmount());
+		bookDao.update(book);
 		orderitemDao.delete(orderitem);
 	}
 
