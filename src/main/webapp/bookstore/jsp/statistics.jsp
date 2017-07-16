@@ -117,7 +117,15 @@
 					<div class="col-lg-12">
 						<form role="form" action="statisticAction!category" method="post" enctype="multipart/form-data">
 							<div class="form-group">
-								<label>Category</label> <input class="form-control" name="category">
+								<label>Category</label>
+								<select class="form-control" name="category">								
+										<option value="noval">noval</option>
+										<option value="education">education</option>
+										<option value="prose">prose</option>
+										<option value="science">science</option>
+										<option value="poetry">poetry</option>
+										<option value="biography">biography</option>
+									</select>
 							</div>
 							<div class="form-group">
 								<label>Start time</label> <input class="form-control" type="date" name="start_time">
