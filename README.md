@@ -9,9 +9,6 @@
 * 对图书，用户，订单的增删查改
 * 对销售数据获取GUI的分析图表，包括对特定用户，对特定图书，对特定图书种类的分析图表 （利用了开源JS图表工具 chart.js）
 
-# 数据库
-MySQL，MongoDB
-
 2. 用户
 * 登陆，记住密码，登出，注册（其中登陆后产生的数据存放在了session中，记住密码的功能通过cookie的机制实现）
 * 用户个人主页除了注册时输入的基本个人信息以外，还可以上传一张头像，以及编辑一段富文本文字作文个人简介，这部分都是用MongoDB存储
@@ -24,6 +21,9 @@ MySQL，MongoDB
 3. 其他
 * 管理员和普通用户在同一界面上登陆，只有管理员账号可以登入控制台
 
+# 数据库
+* MySQL
+* MongoDB
 
 # 部署
 * File->Import->Git->Projects from Git->Next->Clone URI->[https://github.com/IrvingW/BookStore](https://github.com/IrvingW/BookStore)->User/Password
