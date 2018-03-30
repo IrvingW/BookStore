@@ -17,7 +17,7 @@ import javax.json.JsonObject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import org.hibernate.engine.query.OrdinalParameterDescriptor;
+import org.springframework.web.context.request.NativeWebRequest;
 
 import com.mongodb.gridfs.GridFSDBFile;
 
@@ -28,11 +28,15 @@ import model.Orderitem;
 import model.Statistic;
 import model.User;
 import service.AppService;
+import service.KafkaProviderService;
 import dao.BookDao;
 import dao.FileDao;
 import dao.OrderDao;
 import dao.OrderitemDao;
 import dao.UserDao;
+import freemarker.core.Macro;
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 
 
 public class AppServiceImpl implements AppService {
@@ -42,6 +46,13 @@ public class AppServiceImpl implements AppService {
 	private OrderitemDao orderitemDao;
 	private UserDao userDao;
 	private FileDao fileDao;
+	
+	private KafkaProviderService kafkaProviderService;
+	
+
+	public void setKafkaProviderService(KafkaProviderService kafkaProviderService) {
+		this.kafkaProviderService = kafkaProviderService;
+	}
 
 	public void setBookDao(BookDao bookDao) {
 		this.bookDao = bookDao;
@@ -423,39 +434,34 @@ public class AppServiceImpl implements AppService {
 	 
 	 
 	 public void make_order(HttpSession session, String selected_id){
-			User user = this.getUserByName((String) session.getAttribute("user_name"));
+		 	String json_str = "";
+		 	JSONArray jsonArray = new JSONArray();
+		 	User user = this.getUserByName((String) session.getAttribute("user_name"));
 			int user_id = user.getId();
-			Order order = new Order();
-			order.setUser_id(user_id);
-			//get system time
-			Date date=new Date(System.currentTimeMillis());		
-			order.setDate(date);
-			order.setState("unpaid");
-			order = this.addOrder(order);
-					
-			Set<Orderitem> items = new HashSet<Orderitem>();
+			JSONObject user_json = new JSONObject();
+			user_json.put("user_id", user_id);
+			user_json.put("selected_id", selected_id);
+			jsonArray.add(user_json);
+			
 			@SuppressWarnings("unchecked")
 			HashMap<Integer, Integer> map = (HashMap<Integer, Integer>)session.getAttribute("cart");  
 			Iterator<Map.Entry<Integer, Integer>> it = map.entrySet().iterator();  
-			while(it.hasNext()){  
-				Map.Entry<Integer, Integer> entry=it.next(); 
-		        int book_id = entry.getKey();
-		        if(selected_id.contains(String.valueOf(book_id)) == true){
-				Orderitem item = new Orderitem();
-				Book book = this.getBookById(book_id);
-				double price = book.getPrice();
-				item.setOrder(order);
-				item.setBook_id(book_id);
-				item.setEach_price(price);
-				item.setAmount(entry.getValue());
-				items.add(item);
-							
-				this.addOrderitem(item);
-				it.remove();
-				}
-			}  
-			order.setOrderitems(items);
-			this.updateOrder(order);
+			while(it.hasNext()){
+				Map.Entry<Integer, Integer> entry=it.next();
+				JSONObject orderitem_json = new JSONObject();
+				orderitem_json.put("book_id", entry.getKey());
+				orderitem_json.put("count", entry.getValue());
+				jsonArray.add(orderitem_json);
+			}
+			
+			// clear cart
+			@SuppressWarnings("unchecked")
+			HashMap<Integer, Integer> cart = new HashMap<Integer, Integer>();
+			session.setAttribute("cart", cart);
+			
+			// send message
+		 	kafkaProviderService.sendMessage(jsonArray.toString());
+			
 	 }
 	
 }

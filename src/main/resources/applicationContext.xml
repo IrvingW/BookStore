@@ -73,6 +73,16 @@
 	</bean>
 
 	<!-- Service -->
+	<bean id="kafkaProviderService" class="service.impl.KafkaProviderServiceImpl">
+		<property name="kafkaTemplate" ref="KafkaTemplate"></property>
+	</bean>
+	
+	<bean id="kafkaConsumerService" class="service.impl.KafkaConsumerService">
+		<property name="bookDao" ref="bookDao"></property>
+		<property name="orderDao" ref="orderDao"></property>
+		<property name="orderitemDao" ref="orderitemDao"></property>
+	</bean>
+	
 	<bean id="appService" class="service.impl.AppServiceImpl">
 		<!-- DAO -->
 		<property name="bookDao" ref="bookDao"></property>
@@ -80,6 +90,7 @@
 		<property name="orderitemDao" ref="orderitemDao"></property>
 		<property name="userDao" ref="userDao"></property>
 		<property name="fileDao" ref="fileDao"></property>
+		<property name="kafkaProviderService" ref="kafkaProviderService"></property>
 	</bean>
 
 	<!-- HibernateTransactionManager -->
@@ -101,9 +112,8 @@
 	
 	
 	
-	
+	<!-- MongoDB -->
 	<context:property-placeholder location="classpath:mongo.properties" />
-	
     <mongo:mongo host="localhost" port="27017">
     </mongo:mongo>
     
@@ -114,6 +124,8 @@
         <constructor-arg name="mongoDbFactory" ref="mongoDbFactory"/>
     </bean>
 	
-
-
+	<!-- Kafka -->
+	<import resource="classpath:kafkaConsumer.xml" />
+	<import resource="classpath:kafkaProducer.xml" />
+	
 </beans>
