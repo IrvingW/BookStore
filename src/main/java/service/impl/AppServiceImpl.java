@@ -2,6 +2,7 @@ package service.impl;
 
 import java.io.File;
 import java.io.PrintWriter;
+import java.security.AccessControlException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -124,6 +125,10 @@ public class AppServiceImpl implements AppService {
 				.build();
 		
 		return model;
+	}
+	
+	public List<Book> getBookByCategory(String category){
+		return bookDao.getBookByCategory(category);
 	}
 
 	/**

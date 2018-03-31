@@ -22,5 +22,5 @@ public interface BookDao {
 	
 	public List<Book> search(String str);
 	
-
+	public List<Book> getBookByCategory(String category);
 }

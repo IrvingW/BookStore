@@ -2,6 +2,7 @@ package service;
 
 import java.io.File;
 import java.io.PrintWriter;
+import java.security.AccessControlException;
 import java.util.Date;
 import java.util.List;
 
@@ -45,6 +46,8 @@ public interface AppService {
 	public List<Book> search(String str);
 	
 	public JsonObject show_detail(int id);
+	
+	public List<Book> getBookByCategory(String category);
 
 	/**
 	 * order

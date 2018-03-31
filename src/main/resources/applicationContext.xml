@@ -73,6 +73,8 @@
 	</bean>
 
 	<!-- Service -->
+	<bean id="securityService" class="service.impl.SecurityServiceImpl"></bean>
+
 	<bean id="kafkaProviderService" class="service.impl.KafkaProviderServiceImpl">
 		<property name="kafkaTemplate" ref="KafkaTemplate"></property>
 	</bean>

@@ -44,7 +44,7 @@
 <body>
 <!--footer-->
 
-<div class="footer">
+<div class="footer" style="margin:400px auto;">
         <div class="container">
             <div>
                 <div class="logo" align="center">

@@ -129,6 +129,7 @@
 										<option value="science">science</option>
 										<option value="poetry">poetry</option>
 										<option value="biography">biography</option>
+										<option value="vip-book">vip-book</option>
 									</select>
 							</div>
 							

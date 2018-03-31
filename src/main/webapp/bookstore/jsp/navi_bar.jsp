@@ -31,10 +31,11 @@
 <div >
       <nav class="navbar navbar-default" >
                 <div class="navbar-header">
-                    　    <a href="##" class="navbar-brand">Home</a>
+                    　    <a href="bookAction!getCategoryBook.action?category=vip-book" class="navbar-brand"><b>VIP</b></a>
                 </div>
                 <ul class="nav navbar-nav">
-                    <li class="active"><a href="##">小说</a></li>
+                    <li><a href="bookAction!getCategoryBook.action?category=noval">小说</a></li>
+                    <!--  
                     <li class="dropdown">
                         <a href="##" data-toggle="dropdown" class="dropdown-toggle">童书<span class="caret"></span></a>
                         <ul class="dropdown-menu">
@@ -43,10 +44,12 @@
                             <li class="disabled"><a href="##">文学</a></li>
                         </ul>
                     </li>
-                    <li><a href="##">教育</a></li>
-                    <li><a href="##">人文社科</a></li>
-                    <li><a href="##">理工科</a></li>
-                    <li><a href="##">生活</a></li>
+                    -->
+                    <li><a href="bookAction!getCategoryBook.action?category=education">教育</a></li>
+                    <li><a href="bookAction!getCategoryBook.action?category=poetry">诗歌</a></li>
+                    <li><a href="bookAction!getCategoryBook.action?category=prose">散文</a></li>
+                    <li><a href="bookAction!getCategoryBook.action?category=science">科学</a></li>
+                    <li><a href="bookAction!getCategoryBook.action?category=biography">传记</a></li>
                 </ul>
                 
             </nav>

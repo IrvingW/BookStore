@@ -2,6 +2,7 @@ package action;
 
 import java.io.File;
 import java.io.StringWriter;
+import java.security.AccessControlException;
 import java.util.List;
 
 import javax.json.Json;
@@ -13,11 +14,14 @@ import org.springframework.transaction.support.ResourceTransactionManager;
 import com.mysql.jdbc.Field;
 
 import model.Book;
+import model.User;
 import service.AppService;
+import service.SecurityService;
 
 public class BookAction extends BaseAction {
 	private static final long serialVersionUID = 1L;
 	private AppService appService;
+	private SecurityService securityService;
 	
 	private int id;
 	private String name;
@@ -28,6 +32,10 @@ public class BookAction extends BaseAction {
 	
 	private File file;
 	
+	public void setSecurityService(SecurityService securityService) {
+		this.securityService = securityService;
+	}
+
 	public void setFile(File file){
 		this.file = file;
 	}
@@ -162,7 +170,25 @@ public class BookAction extends BaseAction {
 		return "search";
 	}
 
-
+	public String getCategoryBook() {
+		// check view permission
+		String view = "";
+		String user_name = (String) session().getAttribute("user_name");
+		if(user_name == null) {
+			view = "visitor:"+category;
+		}else {
+			User user = appService.getUserByName(user_name);
+			view = user.getRole() + ":" + category;
+		}
+		try {
+			securityService.checkPermission(view);
+		}catch (AccessControlException e) {
+			return "category-denied";
+		}
+		
+		List<Book> books =appService.getBookByCategory(category);
+		request().setAttribute("books", books);
+		return "category";
+	}
 	
-
 }
