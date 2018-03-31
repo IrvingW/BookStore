@@ -94,6 +94,10 @@
 		<property name="fileDao" ref="fileDao"></property>
 		<property name="kafkaProviderService" ref="kafkaProviderService"></property>
 	</bean>
+	
+	<bean id="simpleLoginModule" class="jaas.SimpleLoginModule">
+		<property name="userDao" ref="userDao"></property>
+	</bean>
 
 	<!-- HibernateTransactionManager -->
 	<bean id="transactionManager"

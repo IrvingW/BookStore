@@ -12,6 +12,10 @@ import service.AppService;
 import javax.json.JsonObject;
 import javax.json.Json;
 import javax.json.JsonWriter;
+import javax.security.auth.login.LoginContext;
+import javax.security.auth.login.LoginException;
+
+import jaas.SimpleCallbackHandler;
 
 
 
@@ -176,6 +180,37 @@ public class UserAction extends BaseAction {
 	}
 	
 	public String sign_in() throws Exception{
+		System.setProperty("java.security.policy", "/home/irving/workspace/eclipse/OriginBookStore/src/main/resources/bookView.policy");
+		System.setSecurityManager(new SecurityManager());
+		
+		SimpleCallbackHandler handler = new SimpleCallbackHandler(user_name, password);
+		System.setProperty("java.security.auth.login.config", "/home/irving/workspace/eclipse/OriginBookStore/src/main/resources/jaas.config");
+		LoginContext context = new LoginContext("simple", handler);
+		try {
+			context.login();
+		}catch(LoginException e){
+			// log in error or admin
+			e.printStackTrace();
+			System.setSecurityManager(null);
+			if(e.getMessage().equals("admin")) {
+				return execute();
+			}else {
+				request().setAttribute("login", "false");
+				return ERROR;
+			}
+			
+		}
+		System.setSecurityManager(null);
+		
+		session().setAttribute("loginContext", context);
+		session().setAttribute("user_name", user_name);
+		// create a cart when user sign_in our system
+		HashMap<Integer, Integer> cart = new HashMap<Integer, Integer>();
+		session().setAttribute("cart", cart);
+		return "user";
+		
+		
+		/*
 		User user = appService.getUserByName(user_name);
 		if(user == null){
 			request().setAttribute("login", "false");
@@ -196,12 +231,16 @@ public class UserAction extends BaseAction {
 				session().setAttribute("cart", cart);
 				return "user";
 			}
-		}	
+		}
+		*/	
 	}
 	
 	public String sign_out() throws Exception{
+		LoginContext context = (LoginContext) session().getAttribute("loginContext");
+		context.logout();
 		session().setAttribute("user_name", null);
 		session().setAttribute("cart", null);
+		session().setAttribute("loginContext", null);
 		PrintWriter out = response().getWriter();
 		out.print("success");
 		return null;
