@@ -3,16 +3,20 @@ package action;
 import java.io.File;
 import java.io.StringWriter;
 import java.security.AccessControlException;
+import java.security.PrivilegedAction;
 import java.util.List;
 
 import javax.json.Json;
 import javax.json.JsonObject;
 import javax.json.JsonWriter;
+import javax.security.auth.Subject;
+import javax.security.auth.login.LoginContext;
 
 import org.springframework.transaction.support.ResourceTransactionManager;
 
 import com.mysql.jdbc.Field;
 
+import jaas.BookViewAction;
 import model.Book;
 import model.User;
 import service.AppService;
@@ -172,6 +176,7 @@ public class BookAction extends BaseAction {
 
 	public String getCategoryBook() {
 		// check view permission
+		/*
 		String view = "";
 		String user_name = (String) session().getAttribute("user_name");
 		if(user_name == null) {
@@ -180,10 +185,30 @@ public class BookAction extends BaseAction {
 			User user = appService.getUserByName(user_name);
 			view = user.getRole() + ":" + category;
 		}
-		try {
-			securityService.checkPermission(view);
-		}catch (AccessControlException e) {
-			return "category-denied";
+		*/
+		// vip-book
+		if(category.equals("vip-book")) {
+			String login = (String) session().getAttribute("user_name");
+			if(login==null)
+				return "category-denied";
+			
+			LoginContext context = (LoginContext) session().getAttribute("loginContext");
+			if(context == null)
+				return "category-denied";
+			
+			Subject subject = context.getSubject();
+			PrivilegedAction<String> action = new BookViewAction(securityService);
+			String result = Subject.doAsPrivileged(subject, action, null);
+			if(result.equals("denied"))
+				return "category-denied";
+		}
+		else {
+			String view = category;
+			try {
+				securityService.checkPermission(view);
+			}catch (AccessControlException e) {
+				return "category-denied";
+			}
 		}
 		
 		List<Book> books =appService.getBookByCategory(category);

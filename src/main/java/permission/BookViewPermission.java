@@ -33,16 +33,13 @@ public class BookViewPermission extends Permission {
 		if(!(other instanceof BookViewPermission)) return false;
 		BookViewPermission b = (BookViewPermission) other;
 		if(action.equals("view")) {
-			if(! b.action.equals("view"))	// implies view permission
-				return false;
-			String[] split = b.getName().split(":");
-			String user_role = split[0];
-			String book_category = split[1];
-			if(getName().indexOf(user_role) >= 0){		// role's permission item 
-				if(getName().indexOf(book_category) >= 0)
+			if(b.action.equals("view")) {
+				String book_categorys = b.getName();
+				if(getName().indexOf(book_categorys) >= 0) {
 					return true;
-				else
+				}else {
 					return false;
+				}
 			}else return false;
 		}
 		

@@ -1,7 +1,9 @@
 package jaas;
 
 import java.io.IOException;
+import java.security.Principal;
 import java.util.Map;
+import java.util.Set;
 
 import javax.security.auth.Subject;
 import javax.security.auth.callback.Callback;
@@ -72,6 +74,10 @@ public class SimpleLoginModule implements LoginModule{
 		String pwd = user.getPassword();
 		String u_name = user.getUser_name();
 		if(u_name.equals(user_name) && pwd.equals(password)) {
+			if(user.getRole().equals("VIP")) {	// add principal 
+				Set<Principal> principals = subject.getPrincipals();
+				principals.add(new SimplePrincipal("role", "VIP"));
+			}
 			if(user.getRole().equals("admin")) {
 				LoginException e3 = new LoginException("admin");
 				throw e3;

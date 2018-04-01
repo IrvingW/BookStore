@@ -180,9 +180,12 @@ public class UserAction extends BaseAction {
 	}
 	
 	public String sign_in() throws Exception{
-		System.setProperty("java.security.policy", "/home/irving/workspace/eclipse/OriginBookStore/src/main/resources/bookView.policy");
-		System.setSecurityManager(new SecurityManager());
-		
+		if(System.getSecurityManager() == null) {
+			System.setProperty("java.security.policy", "/home/irving/workspace/eclipse/OriginBookStore/src/main/resources/bookView.policy");
+			System.setSecurityManager(new SecurityManager());
+		}
+		if(user_name == null || password == null)
+			return ERROR;
 		SimpleCallbackHandler handler = new SimpleCallbackHandler(user_name, password);
 		System.setProperty("java.security.auth.login.config", "/home/irving/workspace/eclipse/OriginBookStore/src/main/resources/jaas.config");
 		LoginContext context = new LoginContext("simple", handler);

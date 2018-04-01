@@ -18,8 +18,10 @@ public class SecurityServiceImpl implements SecurityService{
 	@Override
 	public void checkPermission(String view) throws AccessControlException{
 		BookViewPermission b = new BookViewPermission(view, "view");
-		System.setProperty("java.security.policy", "/home/irving/workspace/eclipse/OriginBookStore/src/main/resources/bookView.policy");
-		System.setSecurityManager(new SecurityManager());
+		if(System.getSecurityManager() == null) {
+			System.setProperty("java.security.policy", "/home/irving/workspace/eclipse/OriginBookStore/src/main/resources/bookView.policy");
+			System.setSecurityManager(new SecurityManager());
+		}
 		SecurityManager manager = System.getSecurityManager();
 		try {
 			manager.checkPermission(b);
