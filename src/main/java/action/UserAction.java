@@ -8,6 +8,7 @@ import java.util.List;
 
 import model.User;
 import service.AppService;
+import util.RSAUtil;
 
 import javax.json.JsonObject;
 import javax.json.Json;
@@ -211,31 +212,6 @@ public class UserAction extends BaseAction {
 		HashMap<Integer, Integer> cart = new HashMap<Integer, Integer>();
 		session().setAttribute("cart", cart);
 		return "user";
-		
-		
-		/*
-		User user = appService.getUserByName(user_name);
-		if(user == null){
-			request().setAttribute("login", "false");
-			return ERROR;
-		}
-			
-		if(!user.getPassword().equals(password)){
-			request().setAttribute("login", "false");
-			return ERROR;
-		}
-		else{
-			if(user.getRole().equals("admin"))
-				return execute();
-			else{
-				session().setAttribute("user_name", user_name);
-				// create a cart when user sign_in our system
-				HashMap<Integer, Integer> cart = new HashMap<Integer, Integer>();
-				session().setAttribute("cart", cart);
-				return "user";
-			}
-		}
-		*/	
 	}
 	
 	public String sign_out() throws Exception{

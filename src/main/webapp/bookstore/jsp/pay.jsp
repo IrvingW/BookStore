@@ -94,6 +94,9 @@
 <script src="<%=path%>/bookstore/js/bootstrap.min.js"></script>
 <script src="<%=path%>/bookstore/js/jquery.dataTables.min.js"></script>
 <script src="<%=path%>/bookstore/js/dataTables.bootstrap.min.js"></script>
+
+<script src="<%=path%>/bookstore/js/RSA.js"></script>
+
 <script type="text/javascript">
 $(document).ready(function() {
 	$('#dataTables').DataTable({
@@ -120,7 +123,14 @@ $(function(){
 }); 
 
 function make_order(){
-	var url = "cartAction!make_order.action?selected_id=" + array;
+	var hexPublicExponent = "<%=request.getAttribute("hexPublicExponent")%>";
+	var hexModulus = "<%=request.getAttribute("hexModulus")%>";
+	RSAUtils.setMaxDigits(200);
+	var key = new RSAUtils.getKeyPair(hexPublicExponent, "", hexModulus);
+	var selected_id = array.toString();
+	//var encrypedOrder = RSAUtils.encryptedString(key, selected_id.split("").reverse().join(""));
+	var encrypedOrder = RSAUtils.encryptedString(key, selected_id);
+	var url = "cartAction!make_order.action?order_code=" + encrypedOrder;
     window.location.href=url;
 }
 

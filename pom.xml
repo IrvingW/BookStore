@@ -272,6 +272,14 @@
 		    <version>2.4</version>
 		    <classifier>jdk15</classifier>
 		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/org.bouncycastle/bcprov-jdk15 -->
+		<dependency>
+		    <groupId>org.bouncycastle</groupId>
+		    <artifactId>bcprov-jdk15</artifactId>
+		    <version>1.45</version>
+		</dependency>
+		
 	</dependencies>
 	<build>
 		<finalName>BookStore</finalName>
