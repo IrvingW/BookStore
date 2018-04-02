@@ -7,7 +7,7 @@ import java.util.Set;
 
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.springframework.kafka.listener.MessageListener;
-
+import org.springframework.transaction.annotation.Transactional;
 
 import dao.BookDao;
 import dao.OrderDao;
@@ -49,10 +49,17 @@ public class KafkaConsumerService implements MessageListener<String, String> {
 	
 	public Integer addOrderitem(Orderitem orderitem) {
 		Book book = bookDao.getBookById(orderitem.getBook_id());
-		book.setStock(book.getStock() - orderitem.getAmount());
+		int new_stock = book.getStock() - orderitem.getAmount();
+		// do not have enough book
+		if(new_stock < 0) throw new RuntimeException("out of stock, book id:" + book.getId() + ", book name:" + book.getBook_name());
+		
+		book.setStock(new_stock);
 		bookDao.update(book);
 		return orderitemDao.save(orderitem);
 	}
+	
+	@Transactional
+	/* 过程是先新建一个订单，插入数据库，然后添加orderItem，更新数据库，需要事务支持 */
     @Override  
     public void onMessage(ConsumerRecord<String, String> record) {  
     	System.out.println("KafkaConsumerServer=============kafkaConsumer开始消费=============");  
@@ -96,7 +103,8 @@ public class KafkaConsumerService implements MessageListener<String, String> {
 				item.setEach_price(price);
 				item.setAmount(count);
 				items.add(item);
-							
+				
+				// may throw a exception for out of stock reason
 				this.addOrderitem(item);
 			}
 		}

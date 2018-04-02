@@ -49,9 +49,17 @@
 				hibernate.hbm2ddl.auto=update
 				hibernate.show_sql=true
 				hibernate.format_sql=true
+				hibernate.connection.isolation=4
 			</value>
 		</property>
 	</bean>
+	<!--  事务隔离级别   
+            0：TRANSACTION_NONE  
+            1：TRANSACTION_READ_UNCOMMITTED  
+            2：TRANSACTION_READ_COMMITTED  
+            4：TRANSACTION_REPEATABLE_READ  
+            8：TRANSACTION_SERIALIZABLE  
+     -->  
 
 	<!-- DAO Bean -->
 	<bean id="bookDao" class="dao.impl.BookDaoImpl">
@@ -103,6 +111,8 @@
 	<bean id="transactionManager"
 		class="org.springframework.orm.hibernate3.HibernateTransactionManager"
 		p:sessionFactory-ref="sessionFactory" />
+	<!-- 开启事务控制的注解支持 -->
+	<tx:annotation-driven transaction-manager="transactionManager" />
 
 	<tx:advice id="txAdvice" transaction-manager="transactionManager">
 		<tx:attributes>

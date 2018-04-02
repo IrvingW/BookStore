@@ -5,9 +5,13 @@ import java.util.List;
 import model.Book;
 
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import dao.BookDao;
 
+@Transactional(isolation=Isolation.READ_COMMITTED)
 public class BookDaoImpl extends HibernateDaoSupport implements BookDao {
 
 	public Integer save(Book book) {
@@ -18,6 +22,7 @@ public class BookDaoImpl extends HibernateDaoSupport implements BookDao {
 		getHibernateTemplate().delete(book);
 	}
 
+	@Transactional(propagation=Propagation.SUPPORTS)
 	public void update(Book book) {
 		getHibernateTemplate().merge(book);
 	}

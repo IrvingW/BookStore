@@ -3,6 +3,7 @@ package dao.impl;
 import java.io.File;
 
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.mongodb.DB;
 import com.mongodb.gridfs.GridFS;
@@ -20,8 +21,8 @@ public class FileDaoImpl implements FileDao{
 		this.mongoTemplate = mongoTemplate;
 	}
 
-
-
+	@Transactional
+	// if remote file first and then can not update it
 	public void saveFile(File file, String fileName, String contentType){
 		DB db = mongoTemplate.getDb();
 		GridFS gfs = new GridFS(db,collectionName);
@@ -29,8 +30,7 @@ public class FileDaoImpl implements FileDao{
         // insert a new portrait
         
         if(dbfile != null){  // if file already exist, remove it first
-        	gfs.remove(fileName);
-			
+        	gfs.remove(fileName);			
         }
         try{
 			GridFSInputFile inputFile = gfs.createFile(file);  
@@ -41,9 +41,9 @@ public class FileDaoImpl implements FileDao{
 			// TODO: handle exception
 			e.printStackTrace();
 		}
-  	 
 	}
-	
+	 
+	@Transactional(readOnly=true)
 	public GridFSDBFile getFile(String fileName){
 		try {
             DB db = mongoTemplate.getDb();

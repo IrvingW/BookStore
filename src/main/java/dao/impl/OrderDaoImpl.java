@@ -8,11 +8,17 @@ import model.Order;
 import model.Orderitem;
 
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import dao.OrderDao;
 
+@Transactional(isolation=Isolation.READ_COMMITTED)
 public class OrderDaoImpl extends HibernateDaoSupport implements OrderDao {
 
+	// Consumer创建新订单是会先插入，再更新
+	@Transactional(propagation=Propagation.SUPPORTS)
 	public Order save(Order order) {
 		int test = (Integer)getHibernateTemplate().save(order);
 		getHibernateTemplate().flush();
@@ -23,6 +29,8 @@ public class OrderDaoImpl extends HibernateDaoSupport implements OrderDao {
 		getHibernateTemplate().delete(order);
 	}
 
+	
+	@Transactional(propagation=Propagation.SUPPORTS)
 	public void update(Order order) {
 		getHibernateTemplate().merge(order);
 	}
