@@ -91,6 +91,7 @@
 		<property name="bookDao" ref="bookDao"></property>
 		<property name="orderDao" ref="orderDao"></property>
 		<property name="orderitemDao" ref="orderitemDao"></property>
+		<property name="userDao" ref="userDao"></property>
 	</bean>
 	
 	<bean id="appService" class="service.impl.AppServiceImpl">

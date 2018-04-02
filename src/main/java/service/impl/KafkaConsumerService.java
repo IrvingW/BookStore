@@ -1,9 +1,17 @@
 package service.impl;
 
 
+import java.rmi.RemoteException;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.jar.Attributes.Name;
+
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NameClassPair;
+import javax.naming.NamingEnumeration;
+import javax.naming.NamingException;
 
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.springframework.kafka.listener.MessageListener;
@@ -12,16 +20,21 @@ import org.springframework.transaction.annotation.Transactional;
 import dao.BookDao;
 import dao.OrderDao;
 import dao.OrderitemDao;
+import dao.UserDao;
+import express.Warehouse;
 import model.Book;
 import model.Order;
 import model.Orderitem;
+import model.User;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 public class KafkaConsumerService implements MessageListener<String, String> {  
 	private static OrderDao orderDao;
 	private static BookDao bookDao;
+	private static UserDao userDao;
 	private static OrderitemDao orderitemDao;
+	private static Warehouse server;
 	
 	public void setOrderDao(OrderDao orderDao) {
 		this.orderDao = orderDao;
@@ -33,6 +46,10 @@ public class KafkaConsumerService implements MessageListener<String, String> {
 
 	public void setOrderitemDao(OrderitemDao orderitemDao) {
 		this.orderitemDao = orderitemDao;
+	}
+
+	public void setUserDao(UserDao userDao) {
+		this.userDao = userDao;
 	}
 
 	public Order addOrder(Order order) {
@@ -110,7 +127,28 @@ public class KafkaConsumerService implements MessageListener<String, String> {
 		}
 		order.setOrderitems(items);
 		this.updateOrder(order);
+		// create Express
+		User user = userDao.getUserById(user_id);
+		try {
+			create_Express(user, order.getId());
+		} catch (RemoteException e) {
+			e.printStackTrace();
+			throw new RuntimeException("can't create Express");
+		} catch (NamingException e) {
+			e.printStackTrace();
+			throw new RuntimeException("can't create Express");
+		}
+		
     }  
-    
+	
+	private void create_Express(User user, int order_id) throws RemoteException, NamingException {
+		if(server == null) {
+			Context namingContext = new InitialContext();
+			String url = "rmi://localhost:1097/put_express_service";
+			server = (Warehouse) namingContext.lookup(url);
+		}
+		
+		server.putNewExpress("E-BookStore", user.getUser_name(), user.getAddress(), order_id);
+	}  
     
 }  

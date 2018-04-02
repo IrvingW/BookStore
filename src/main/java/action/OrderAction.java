@@ -4,6 +4,15 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.json.Json;
+import javax.json.JsonObject;
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NameClassPair;
+import javax.naming.NamingEnumeration;
+import javax.net.ssl.SSLEngineResult.Status;
+
+import express.Warehouse;
 import model.Book;
 import model.Order;
 import model.Orderitem;
@@ -125,5 +134,24 @@ public class OrderAction extends BaseAction {
 		List<Orderitem> orderitems = appService.getItems(id);
 		request().setAttribute("orderitems", orderitems);
 		return "items";
+	}
+	
+	// Ajax
+	@SuppressWarnings("finally")
+	public String getExpressStatus() throws Exception{
+		Context namingContext = new InitialContext();
+		String url = "rmi://localhost:1097/get_express_service";
+		String status = "Expree 服务异常";
+		try {
+			Warehouse server = (Warehouse) namingContext.lookup(url);
+			status = server.getExpressStatus(String.valueOf(id));
+			System.out.println(status);
+		}catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			response().setContentType("text/html;charset=utf-8"); // this must before getWriter() 
+			response().getWriter().print(status);
+			return null;
+		}
 	}
 }

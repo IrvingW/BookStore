@@ -19,14 +19,12 @@
 		<table align="center" class="table table-striped table-bordered table-hover" >
 		        <thead>
 			        <tr align="center">
-			        	<td class="hide">id</td>
+			        	<td><b>物流信息</b></td>
 			            <td><b>时间</b></td>
 			            <td><b>总价</b></td>
-			            
-						        	<td><b>图书编号：</b></td>
-							        <td><b>单价：</b></td>
-							        <td><b>数量：</b></td>	
-		            
+						<td><b>图书编号：</b></td>
+						<td><b>单价：</b></td>
+						<td><b>数量：</b></td>	
 			        </tr>
 		        </thead>
 		        
@@ -43,17 +41,15 @@
 		        				double count = item.getAmount();
 		        				price += each_price * count;
 		        			}
-		        			
-		        		
-		        %>
-		        
+		        %>		        
 		         <tr align="center">
+		         	<td><button class="btn btn-default" onclick="express(<%= order.getId() %>);">查看</button></td>
 		         	<td class="hide"><%= order.getId()%></td>
 		            <td><%= order.getDate()%></td>
 		            <td><%= price%></td>
 		            <td> * </td>
 		            <td> * </td>
-		           <td> * </td>
+		           	<td> * </td>
 		    
 		            
 		        </tr>
@@ -62,13 +58,12 @@
 				        %>
 				        	<div class="collapse">
 						        <tr align="center">
-						        <td> * </td>
-						        <td> * </td>
-						       
-						        	<td><%= item.getBook_id() %></td>
-							        <td><%= item.getEach_price() %></td>
-							        <td><%= item.getAmount() %></td>
-							       
+							        <td> * </td>
+							        <td> * </td>
+							        <td> * </td>
+							       	<td><%= item.getBook_id() %></td>
+								    <td><%= item.getEach_price() %></td>
+								    <td><%= item.getAmount() %></td>
 						        </tr>
 		        			</div>
 		        		<%
@@ -84,8 +79,18 @@
 		    
 
 </body>
-
-
+<script type="text/javascript">
+function express(order_id) {
+	$.ajax({
+	    type: "post",
+	    url: "orderAction!getExpressStatus",
+	    data: {id: order_id },
+	    success: function (data) {
+	    	alert(data);
+	    }
+   	});
+}
+</script>
 
 
 </html>

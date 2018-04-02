@@ -204,7 +204,7 @@ $(document).ready(function() {
 function sign_out() {
 	var user = "<%=session.getAttribute("user_name")%>";
 	if(user == "null"){
-		alert("您尚未登陆")
+		alert("您尚未登陆");
 		return false;
 	}
 	$.ajax({

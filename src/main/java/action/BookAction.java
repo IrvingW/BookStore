@@ -175,17 +175,6 @@ public class BookAction extends BaseAction {
 	}
 
 	public String getCategoryBook() {
-		// check view permission
-		/*
-		String view = "";
-		String user_name = (String) session().getAttribute("user_name");
-		if(user_name == null) {
-			view = "visitor:"+category;
-		}else {
-			User user = appService.getUserByName(user_name);
-			view = user.getRole() + ":" + category;
-		}
-		*/
 		// vip-book
 		if(category.equals("vip-book")) {
 			String login = (String) session().getAttribute("user_name");
