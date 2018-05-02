@@ -19,8 +19,12 @@ import com.mysql.jdbc.Field;
 import jaas.BookViewAction;
 import model.Book;
 import model.User;
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
+import redis.clients.jedis.Jedis;
 import service.AppService;
 import service.SecurityService;
+
 
 public class BookAction extends BaseAction {
 	private static final long serialVersionUID = 1L;
@@ -170,7 +174,21 @@ public class BookAction extends BaseAction {
 	
 	
 	public String search(){
-		request().setAttribute("books", appService.search(name));
+		Jedis jedis = new Jedis("localhost");
+		System.out.println("连接成功");
+		String cache = jedis.get(name);
+		List<Book> list;
+		if(cache == null) {
+			System.out.println("缓存未命中");
+			list = appService.search(name);
+			JSONArray json = JSONArray.fromObject(list);
+			jedis.set(name, json.toString());
+		}else {
+			System.out.println("缓存命中");
+			JSONArray json = new JSONArray().fromObject(cache);
+			list = (List<Book>) JSONArray.toList(json, Book.class);
+		}
+		request().setAttribute("books", list);
 		return "search";
 	}
 
