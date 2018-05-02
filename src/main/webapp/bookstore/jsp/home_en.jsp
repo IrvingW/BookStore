@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>在线书城</title>
+<title>E-Book Store</title>
 <style type="text/css">
 	.product {
     padding: 3em 0 0em;
@@ -70,8 +70,8 @@
 </style>
 </head>
 <body >
-<jsp:include page="header.jsp"></jsp:include>
-<jsp:include page="navi_bar.jsp"></jsp:include>
+<jsp:include page="header_en.jsp"></jsp:include>
+<jsp:include page="navi_bar_en.jsp"></jsp:include>
 <%
 	String path = request.getContextPath();
 %>
@@ -97,19 +97,19 @@
     <div class="cart">
     	<a href="cartAction!pay" onclick="return check_login();"> 
 	        <i class="fa fa-shopping-cart fa-fw my-cart-icon" aria-hidden="true"></i>
-	        <span >购物车</span> 
+	        <span >Cart</span> 
     	</a>
     	
     </div>
     <div class="order">
     	<a href="orderAction!getOrders" onclick="return check_login();"> 
 	        <i class="fa fa-file fa-fw my-order-icon" aria-hidden="true"></i>
-	        <span >订单</span> 
+	        <span >Order</span> 
     	</a>
     	
     </div> 
 </div> 
-<div id="msg">已成功加入购物车！</div> 
+<div id="msg">success！</div> 
 
 
 <!-- products -->
@@ -124,12 +124,12 @@
             <div class="box">         	 
 				<img src="fileAction!download_pic.action?book_name=月亮与六便士" width="130" height="130"> 
               	<div style="margin-top: 10px;">			    	
-                   	<a class="title">月亮与六便士</a>
+                   	<a class="title">moon and six penny</a>
              	</div>
 			    <p ><em class="item_price">￥6.00</em></p>				
 			    <div style="margin-bottom: 10px;">
-                	<button class="btn btn-default detail" type="button" data-toggle="modal" data-target="#myModal">详细信息</button>                               
-                    <button class="btn btn-success addcart" type="button">加入购物车</button>             
+                	<button class="btn btn-default detail" type="button" data-toggle="modal" data-target="#myModal">Detail</button>                               
+                    <button class="btn btn-success addcart" type="button">Add to Cart</button>             
                     <p class="hide">3</p> 
                 </div>              
 			</div> 
@@ -153,8 +153,8 @@
                         </div>
                     </div>
                     <div class="col-md-9 span-5 ">
-                        <p class="title" id="detail_title">月亮与六便士</p>
-                        <p class="title" id="detail_author">毛姆</p>
+                        <p class="title" id="detail_title">moon and six penny</p>
+                        <p class="title" id="detail_author">Peter</p>
                         <p class="title" id="detail_stock">100</p>
                         <p class="title" id="detail_price">￥6.00</p> 
                         <label>数量：</label>
@@ -166,10 +166,10 @@
 							</div>  
 						</div>                    
                         
-                        <h4 style="margin-top: 30px;">简介</h4>
-                        <a data-toggle="collapse" data-target="#intro" style="font-family: inherit;font-size: 13px;" >展开 >></a>
+                        <h4 style="margin-top: 30px;">introduction</h4>
+                        <a data-toggle="collapse" data-target="#intro" style="font-family: inherit;font-size: 13px;" >details >></a>
                         <div id="intro" class="collapse">
-                        	<p>管理员最喜欢的书</p>
+                        	<p>my favourite book</p>
                         </div>
                         
 	                       	  
@@ -204,7 +204,7 @@
 			    }
 			    	
 			    else if(strValue == "login"){
-			    	alert("添加失败,请重新登陆");
+			    	alert("add to cart failed, please sign in.");
 			    	window.location="sign_in.jsp";
 			    }
 		    }
@@ -268,10 +268,10 @@ $(".detail").click(function () {
 	    success: function (data) {
 	    	var json = eval("("+data+")");
 		   // $("#detail_title").val();
-		    $("#detail_title").text("书名： "+json["name"]);
-		    $("#detail_price").text("价格： ￥"+json["price"]);
-		    $("#detail_author").text("作者： "+json["author"]);
-		    $("#detail_stock").text("库中仅剩： "+json["stock"]);
+		    $("#detail_title").text("book name： "+json["name"]);
+		    $("#detail_price").text("price： ￥"+json["price"]);
+		    $("#detail_author").text("author： "+json["author"]);
+		    $("#detail_stock").text("stock： "+json["stock"]);
 	    	//var modal = $("#myModal");
 	    }
    	});
@@ -282,7 +282,7 @@ function check_login() {
 	var test = 1;
 	var user = "<%=session.getAttribute("user_name")%>"
 	if(user == "null"){
-		alert("您尚未登陆");
+		alert("You have not signed in yet.");
 		return false;
 	}
 }

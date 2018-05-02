@@ -122,14 +122,14 @@
             		String btn = "";
             		String myName = (String)session.getAttribute("user_name");
             		if(myName == null) {
-            			myName="点击登陆";
+            			myName="Sign In";
             			btn = "onclick=\"log_in()\"";
             		}
             	%>
 	        
                 <li><a href="#" data-toggle="modal" data-target="#profile" <%= btn %>><i class="fa fa-user fa-fw" aria-hidden="true"></i><%= myName %></a></li>
-                <li><a href="" onclick="return sign_out();"><i class="fa fa-arrow-right fa-fw" aria-hidden="true"></i>退出登陆</a></li>
-                <li><a href="languageAction!switch_lang.action?lang=en"><i class="fa fa-arrow-right fa-fw" aria-hidden="true"></i>切换语言</a></li>
+                <li><a href="" onclick="return sign_out();"><i class="fa fa-arrow-right fa-fw" aria-hidden="true"></i>Sign Out</a></li>
+                <li><a href="languageAction!switch_lang.action?lang=zh"><i class="fa fa-arrow-right fa-fw" aria-hidden="true"></i>Switch　Language</a></li>
             </ul>
         </div>
         <!--navigate bar-->
@@ -165,8 +165,8 @@
 								<label>Address</label> <input class="form-control" type="text" name="address" disabled="true" id="addr">
 							</div>		
 						</form>
-						<button class="btn btn-default"><a href="edit_profile.jsp">个人简历</a></button>
-						<button class="btn btn-default"><a href="edit_pwd.jsp">修改密码</a></button>
+						<button class="btn btn-default"><a href="edit_profile.jsp">Resume</a></button>
+						<button class="btn btn-default"><a href="edit_pwd.jsp">Change the password</a></button>
 					</div>
 				</div>
 			</div><!-- /.modal-content -->
@@ -205,7 +205,7 @@ $(document).ready(function() {
 function sign_out() {
 	var user = "<%=session.getAttribute("user_name")%>";
 	if(user == "null"){
-		alert("您尚未登陆");
+		alert("You have not signed in yet.");
 		return false;
 	}
 	$.ajax({
@@ -216,11 +216,14 @@ function sign_out() {
 			if(data == "success")
 				window.location.replace("home.jsp") 
 			else
-				alert("异常");
+				alert("failed");
 	    }
     });
 }
 
+function switch_lan(){
+	window.location="languageAction!switch_lang.action?lang=zh";
+}
 
 function log_in() {
 	window.location="sign_in.jsp";
